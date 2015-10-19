@@ -1,0 +1,45 @@
+﻿Build started 19.10.2015 23:51:07.
+     1>Project "C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Project1\Project1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt AIPlayer.cpp cardInHandState.cpp cardInHandWindow.cpp cardsDeckState.cpp logWindow.cpp main.cpp gameWindow.cpp playerHandState.cpp playerInterfaceWindow.cpp playerState.cpp playerWindow.cpp settings.cpp utils.cpp
+         utils.cpp
+     1>c:\users\александр\desktop\repositories\6sem_winapi\arcomage\project\project1\utils.cpp(33): warning C4305: 'argument': truncation from 'int' to 'char'
+     1>c:\users\александр\desktop\repositories\6sem_winapi\arcomage\project\project1\utils.cpp(33): warning C4309: 'argument': truncation of constant value
+     1>c:\users\александр\desktop\repositories\6sem_winapi\arcomage\project\project1\utils.cpp(35): warning C4305: 'argument': truncation from 'int' to 'char'
+     1>c:\users\александр\desktop\repositories\6sem_winapi\arcomage\project\project1\utils.cpp(35): warning C4309: 'argument': truncation of constant value
+         settings.cpp
+         playerWindow.cpp
+         playerState.cpp
+         playerInterfaceWindow.cpp
+         playerHandState.cpp
+         gameWindow.cpp
+         main.cpp
+         logWindow.cpp
+         cardsDeckState.cpp
+         cardInHandWindow.cpp
+         cardInHandState.cpp
+         AIPlayer.cpp
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\Project1.res" Project1.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Debug\Project1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Debug\Project1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Debug\Project1.lib" /MACHINE:X86 Debug\Project1.res
+         Debug\AIPlayer.obj
+         Debug\cardInHandState.obj
+         Debug\cardInHandWindow.obj
+         Debug\cardsDeckState.obj
+         Debug\logWindow.obj
+         Debug\main.obj
+         Debug\gameWindow.obj
+         Debug\playerHandState.obj
+         Debug\playerInterfaceWindow.obj
+         Debug\playerState.obj
+         Debug\playerWindow.obj
+         Debug\settings.obj
+         Debug\utils.obj
+         Project1.vcxproj -> C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Debug\Project1.exe
+     1>Done Building Project "C:\Users\Александр\Desktop\repositories\6sem_winapi\Arcomage\Project\Project1\Project1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.61

@@ -1,0 +1,9 @@
+﻿Build started 21.05.2015 4:42:59.
+     1>Project "C:\study\6 семестр\WinAPI\8\Project2\WordCount\WordCount.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         WordCount.vcxproj -> C:\study\6 семестр\WinAPI\8\Project2\Release\WordsCountDLL.dll
+     1>Done Building Project "C:\study\6 семестр\WinAPI\8\Project2\WordCount\WordCount.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.06

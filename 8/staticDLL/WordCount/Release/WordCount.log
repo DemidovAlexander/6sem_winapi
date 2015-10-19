@@ -1,0 +1,19 @@
+﻿Build started 21.05.2015 5:05:43.
+     1>Project "C:\study\6 семестр\WinAPI\8\Project1\WordCount\WordCount.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt wordsCount.cpp
+         wordsCount.cpp
+     1>wordsCount.cpp(4): warning C4273: 'WordsCount' : inconsistent dll linkage
+                 c:\study\6 семестр\winapi\8\project1\wordcount\wordsCount.h(7) : see previous definition of 'WordsCount'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.dll" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.lib" /MACHINE:X86 /SAFESEH /DLL Release\main.obj
+         Release\wordsCount.obj
+            Creating library C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.lib and object C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.exp
+         Generating code
+         Finished generating code
+         WordCount.vcxproj -> C:\study\6 семестр\WinAPI\8\Project1\Release\WordsCountDLL.dll
+     1>Done Building Project "C:\study\6 семестр\WinAPI\8\Project1\WordCount\WordCount.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.50
