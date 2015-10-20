@@ -1,9 +1,25 @@
-﻿Build started 21.05.2015 12:50:21.
-     1>Project "C:\study\6 семестр\WinAPI\8\Project2\Project1\Project1.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         Project1.vcxproj -> C:\study\6 семестр\WinAPI\8\Project2\Release\Project1.exe
-     1>Done Building Project "C:\study\6 семестр\WinAPI\8\Project2\Project1\Project1.vcxproj" (Build target(s)).
+﻿Build started 21.10.2015 2:12:14.
+     1>Project "C:\Users\Александр\Desktop\8\dynamicDLL\Project1\Project1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp overlappedWindow.cpp windowSettings.cpp
+         main.cpp
+         overlappedWindow.cpp
+     1>overlappedWindow.cpp(173): warning C4309: 'initializing': truncation of constant value
+         windowSettings.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Александр\Desktop\8\dynamicDLL\Release\Project1.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Александр\Desktop\8\dynamicDLL\Release\Project1.pdb" /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Александр\Desktop\8\dynamicDLL\Release\Project1.lib" /MACHINE:X86 /SAFESEH Release\Project1.res
+         Release\main.obj
+         Release\overlappedWindow.obj
+         Release\windowSettings.obj
+         "C:\Users\Александр\Desktop\8\dynamicDLL\Release\WordsCountDLL.lib"
+         Generating code
+         0 of 111 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
+         Finished generating code
+         Project1.vcxproj -> C:\Users\Александр\Desktop\8\dynamicDLL\Release\Project1.exe
+     1>Done Building Project "C:\Users\Александр\Desktop\8\dynamicDLL\Project1\Project1.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.14
+Time Elapsed 00:00:02.21

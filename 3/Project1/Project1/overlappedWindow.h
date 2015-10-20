@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <windows.h>
 #include "ellipseWindow.h"
@@ -8,24 +8,24 @@ public:
     COverlappedWindow();
     ~COverlappedWindow();
 
-    // Зарегистрировать класс окна
+    // Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РєР»Р°СЃСЃ РѕРєРЅР°
     static bool RegisterClass(HINSTANCE hInstance);
 
-    // Создать экземпляр окна
+    // РЎРѕР·РґР°С‚СЊ СЌРєР·РµРјРїР»СЏСЂ РѕРєРЅР°
     bool Create(HINSTANCE hInstance);
 
-    // Показать окно
+    // РџРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ
     void Show( int cmdShow );
 
 protected:
-    void onDestroy();
-	void onSize();
+    void OnDestroy();
+	void OnSize();
 
 private:
 	static wchar_t* nameClassWindow; 
 	static wchar_t* nameWindow; 
 
-    HWND handle; // хэндл окна
+    HWND handle; // С…СЌРЅРґР» РѕРєРЅР°
 
 	CEllipseWindow leftTop;
 	CEllipseWindow rightTop;

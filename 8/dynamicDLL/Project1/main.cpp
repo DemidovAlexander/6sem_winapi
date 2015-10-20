@@ -1,9 +1,9 @@
-/*
- *автор: Демидов Александр
- *учебное заведение: МФТИ(ГУ) ФИВТ 296
- *направление: Прикладная Математика и Информатика
+п»ї/*
+ *Р°РІС‚РѕСЂ: Р”РµРјРёРґРѕРІ РђР»РµРєСЃР°РЅРґСЂ
+ *СѓС‡РµР±РЅРѕРµ Р·Р°РІРµРґРµРЅРёРµ: РњР¤РўР(Р“РЈ) Р¤РР’Рў 296
+ *РЅР°РїСЂР°РІР»РµРЅРёРµ: РџСЂРёРєР»Р°РґРЅР°СЏ РњР°С‚РµРјР°С‚РёРєР° Рё РРЅС„РѕСЂРјР°С‚РёРєР°
  *
- *WinApi Третье задание
+ *WinApi Р’РѕСЃСЊРјРѕРµ Р·Р°РґР°РЅРёРµ
  *
  */
 
@@ -33,13 +33,13 @@ int _stdcall wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR comm
 			return -1;
 		}
 		if( !::TranslateAccelerator( myWin.GetHandle(), haccel, &message ) &&
-			!IsDialogMessage(myWin.GetDialogHandle(), &message) ) {
+			!::IsDialogMessage(myWin.GetDialogHandle(), &message) ) {
 			::TranslateMessage( &message );
 			::DispatchMessage( &message );
 		}
 	}
 
-	DestroyAcceleratorTable(haccel);
+	::DestroyAcceleratorTable(haccel);
 
 	return message.wParam;
 }

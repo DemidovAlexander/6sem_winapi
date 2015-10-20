@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include "windowSettings.h"
 
 WindowSettings::WindowSettings() {
@@ -7,108 +7,108 @@ WindowSettings::WindowSettings() {
 		backgroundCustColors[i] = RGB(255, 255, 255);
 	}
 
-	ZeroMemory(&fontColor, sizeof(fontColor));
+	::ZeroMemory(&fontColor, sizeof(fontColor));
 	fontColor.lStructSize = sizeof(fontColor);
 	fontColor.lpCustColors = (LPDWORD)fontCustColors;
 	fontColor.Flags = CC_FULLOPEN | CC_RGBINIT;
 			
-	ZeroMemory(&backgroundColor, sizeof(backgroundColor));
+	::ZeroMemory(&backgroundColor, sizeof(backgroundColor));
 	backgroundColor.lStructSize = sizeof(backgroundColor);
 	backgroundColor.lpCustColors = (LPDWORD)backgroundCustColors;
 	backgroundColor.Flags = CC_FULLOPEN | CC_RGBINIT;
 
-	setFontSize(12);
-	setTransparency(255);
-	setFontColor(RGB(0, 0, 0));
-	setBackgroundColor(RGB(255, 255, 255));
-	applyEdits();
+	SetFontSize(12);
+	SetTransparency(255);
+	SetFontColor(RGB(0, 0, 0));
+	SetBackgroundColor(RGB(255, 255, 255));
+	ApplyEdits();
 
-	disablePreview();
+	DisablePreview();
 }
 
-void WindowSettings::applyEdits() {
+void WindowSettings::ApplyEdits() {
 	oldFontSize = fontSize;
 	oldTransparency = transparency;
 	oldFontColor = fontColor.rgbResult;
 	oldBackGroundColor = backgroundColor.rgbResult;
 }
 
-void WindowSettings::restoreEdits() {
+void WindowSettings::RestoreEdits() {
 	fontSize = oldFontSize;
 	transparency = oldTransparency;
 	fontColor.rgbResult = oldFontColor;
 	backgroundColor.rgbResult = oldBackGroundColor;
 }
 
-int WindowSettings::getFontSize() {
+int WindowSettings::GetFontSize() {
 	return fontSize;
 }
 
-int WindowSettings::getTransparency() {
+int WindowSettings::GetTransparency() {
 	return transparency;
 }
 
-int WindowSettings::getOldTransparency() {
+int WindowSettings::GetOldTransparency() {
 	return oldTransparency;
 }
 
-int WindowSettings::getOldFontSize() {
+int WindowSettings::GetOldFontSize() {
 	return oldFontSize;
 }
 
-COLORREF WindowSettings::getFontColor() {
+COLORREF WindowSettings::GetFontColor() {
 	return fontColor.rgbResult;
 }
 
-COLORREF WindowSettings::getBackgroundColor() {
+COLORREF WindowSettings::GetBackgroundColor() {
 	return backgroundColor.rgbResult;
 }
 
-COLORREF WindowSettings::getOldFontColor() {
+COLORREF WindowSettings::GetOldFontColor() {
 	return oldFontColor;
 }
 
-COLORREF WindowSettings::getOldBackgroundColor() {
+COLORREF WindowSettings::GetOldBackgroundColor() {
 	return oldBackGroundColor;
 }
 
-bool WindowSettings::isPreviewEnabled() {
+bool WindowSettings::IsPreviewEnabled() {
 	return preview;
 }
 
-void WindowSettings::setFontSize(int newFontSize) {
+void WindowSettings::SetFontSize(int newFontSize) {
 	fontSize = newFontSize;
 }
 
-void WindowSettings::setTransparency(int newTransparency) {
+void WindowSettings::SetTransparency(int newTransparency) {
 	transparency = newTransparency;
 }
 
-void WindowSettings::setFontColor(COLORREF newColor) {
+void WindowSettings::SetFontColor(COLORREF newColor) {
 	fontColor.rgbResult = newColor;
 }
 
-void WindowSettings::setBackgroundColor(COLORREF newColor) {
+void WindowSettings::SetBackgroundColor(COLORREF newColor) {
 	backgroundColor.rgbResult = newColor;
 }
 
-void WindowSettings::setHwndDlg(HWND hwndDlg) {
+void WindowSettings::SetHwndDlg(HWND hwndDlg) {
 	fontColor.hwndOwner = hwndDlg;
 	backgroundColor.hwndOwner = hwndDlg;
 }
 
-BOOL WindowSettings::chooseFontColor() {
+BOOL WindowSettings::ChooseFontColor() {
 	return ChooseColor(&fontColor);
 }
 
-BOOL WindowSettings::chooseBackgroundColor() {
+BOOL WindowSettings::ChooseBackgroundColor() {
 	return ChooseColor(&backgroundColor);
 }
 
-void WindowSettings::enablePreview() {
+void WindowSettings::EnablePreview() {
 	preview = true;
 }
 
-void WindowSettings::disablePreview() {
+void WindowSettings::DisablePreview() {
 	preview = false;
 }

@@ -158,7 +158,7 @@ HWND GameWindow::GetDialogHandle() {
 
 void GameWindow::OnDestroy() {
 	KillTimer( handle, timerID );
-	DestroyWindow(handle);
+	PostQuitMessage(0);
 }
 
 void GameWindow::OnTimer() {
@@ -193,6 +193,7 @@ void GameWindow::OnClose() {
 			return;
 	}
 
+	DestroyWindow(dialogHandle);
 	DestroyWindow(handle);
 }
 
@@ -247,8 +248,7 @@ BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 			return FALSE;
 		}
 		case WM_CLOSE:
-			::SendMessage( that->GetHandle(), WM_DESTROY, NULL, NULL );
-			DestroyWindow(hwndDlg);
+			::SendMessage(that->GetHandle(), WM_CLOSE, NULL, NULL);
 			return TRUE;
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
@@ -263,8 +263,7 @@ BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 					DestroyWindow(hwndDlg);
 					return TRUE;
 				case IDCANCEL:
-					::SendMessage( that->GetHandle(), WM_DESTROY, NULL, NULL );
-					DestroyWindow(hwndDlg);
+					::SendMessage(that->GetHandle(), WM_CLOSE, NULL, NULL);
 					return TRUE;
 			}
 	}

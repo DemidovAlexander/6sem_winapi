@@ -1,0 +1,67 @@
+﻿Build started 20.10.2015 2:22:50.
+     1>Project "C:\Users\Александр\Desktop\Arcomage\Project\Project1\Project1.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt AIPlayer.cpp cardInHandState.cpp cardInHandWindow.cpp cardsDeckState.cpp logWindow.cpp main.cpp gameWindow.cpp playerHandState.cpp playerInterfaceWindow.cpp playerState.cpp playerWindow.cpp settings.cpp utils.cpp
+         AIPlayer.cpp
+         cardInHandState.cpp
+         cardInHandWindow.cpp
+     1>cardInHandWindow.cpp(138): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>cardInHandWindow.cpp(138): warning C4311: 'reinterpret_cast': pointer truncation from 'CardInHandWindow *' to 'LONG'
+     1>cardInHandWindow.cpp(138): warning C4302: 'reinterpret_cast': truncation from 'CardInHandWindow *' to 'LONG'
+     1>cardInHandWindow.cpp(143): error C2065: 'GWL_USERDATA': undeclared identifier
+         cardsDeckState.cpp
+         logWindow.cpp
+     1>logWindow.cpp(163): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>logWindow.cpp(163): warning C4311: 'reinterpret_cast': pointer truncation from 'LogWindow *' to 'LONG'
+     1>logWindow.cpp(163): warning C4302: 'reinterpret_cast': truncation from 'LogWindow *' to 'LONG'
+     1>logWindow.cpp(168): error C2065: 'GWL_USERDATA': undeclared identifier
+         main.cpp
+     1>main.cpp(79): warning C4244: 'return': conversion from 'WPARAM' to 'int', possible loss of data
+         gameWindow.cpp
+     1>gameWindow.cpp(62): error C2664: 'HWND CreateDialogParamW(HINSTANCE,LPCWSTR,HWND,DLGPROC,LPARAM)': cannot convert argument 4 from 'BOOL (__cdecl *)(HWND,UINT,WPARAM,LPARAM)' to 'DLGPROC'
+         gameWindow.cpp(62): note: None of the functions with this name in scope match the target type
+     1>gameWindow.cpp(89): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(90): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(92): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(93): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(94): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(220): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>gameWindow.cpp(232): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(233): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(235): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(236): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(237): warning C4244: 'argument': conversion from 'LRESULT' to 'int', possible loss of data
+     1>gameWindow.cpp(256): warning C4244: '=': conversion from 'UINT_PTR' to 'UINT', possible loss of data
+     1>gameWindow.cpp(362): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>gameWindow.cpp(362): warning C4311: 'reinterpret_cast': pointer truncation from 'GameWindow *' to 'LONG'
+     1>gameWindow.cpp(362): warning C4302: 'reinterpret_cast': truncation from 'GameWindow *' to 'LONG'
+     1>gameWindow.cpp(367): error C2065: 'GWL_USERDATA': undeclared identifier
+         playerHandState.cpp
+         playerInterfaceWindow.cpp
+     1>playerInterfaceWindow.cpp(96): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>playerInterfaceWindow.cpp(96): warning C4311: 'reinterpret_cast': pointer truncation from 'PlayerInterfaceWindow *' to 'LONG'
+     1>playerInterfaceWindow.cpp(96): warning C4302: 'reinterpret_cast': truncation from 'PlayerInterfaceWindow *' to 'LONG'
+     1>playerInterfaceWindow.cpp(101): error C2065: 'GWL_USERDATA': undeclared identifier
+         playerState.cpp
+         playerWindow.cpp
+     1>playerWindow.cpp(160): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(165): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(170): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(175): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(181): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(187): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     1>playerWindow.cpp(193): error C2065: 'GWL_USERDATA': undeclared identifier
+     1>playerWindow.cpp(193): warning C4311: 'reinterpret_cast': pointer truncation from 'PlayerWindow *' to 'LONG'
+     1>playerWindow.cpp(193): warning C4302: 'reinterpret_cast': truncation from 'PlayerWindow *' to 'LONG'
+     1>playerWindow.cpp(198): error C2065: 'GWL_USERDATA': undeclared identifier
+         settings.cpp
+         utils.cpp
+     1>utils.cpp(33): warning C4305: 'argument': truncation from 'int' to 'char'
+     1>utils.cpp(33): warning C4309: 'argument': truncation of constant value
+     1>utils.cpp(35): warning C4305: 'argument': truncation from 'int' to 'char'
+     1>utils.cpp(35): warning C4309: 'argument': truncation of constant value
+     1>Done Building Project "C:\Users\Александр\Desktop\Arcomage\Project\Project1\Project1.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.23

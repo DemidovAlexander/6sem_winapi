@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "ellipse.h"
 #include <windows.h>
@@ -8,32 +8,32 @@ public:
 	CEllipseWindow();
 	~CEllipseWindow();
 
-	// Зарегистрировать класс окна
+	// Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РєР»Р°СЃСЃ РѕРєРЅР°
 	static bool RegisterClass(HINSTANCE hInstance);
 
-	// Создать экземпляр окна
-	bool Create(HINSTANCE hInstance, HWND parentHandle, int id);
+	// РЎРѕР·РґР°С‚СЊ СЌРєР·РµРјРїР»СЏСЂ РѕРєРЅР°
+	bool Create( HINSTANCE hInstance, HWND parentHandle, int id );
 
-	// Показать окно
+	// РџРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ
 	void Show(int cmdShow);
 
-	HWND getHandle();
+	HWND GetHandle();
 
 protected:
-	void onDestroy();
-	void onPaint();
-	void onTimer();
-	void onClick();
-	void onSize();
+	void OnDestroy();
+	void OnPaint();
+	void OnTimer();
+	void OnClick();
+	void OnSize();
 
 private:
 	static wchar_t* nameClassWindow; 
 	static wchar_t* nameWindow; 
 
-	HWND handle; // хэндл окна
+	HWND handle; // С…СЌРЅРґР» РѕРєРЅР°
 	UINT timerID;
 
-	СEllipse ellipse;
+	РЎEllipse ellipse;
 	void drawEllipse(HDC dc);
 
 	static LRESULT __stdcall windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam );

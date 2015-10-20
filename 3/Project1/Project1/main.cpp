@@ -1,9 +1,9 @@
-/*
- *автор: Демидов Александр
- *учебное заведение: МФТИ(ГУ) ФИВТ 296
- *направление: Прикладная Математика и Информатика
+п»ї/*
+ *Р°РІС‚РѕСЂ: Р”РµРјРёРґРѕРІ РђР»РµРєСЃР°РЅРґСЂ
+ *СѓС‡РµР±РЅРѕРµ Р·Р°РІРµРґРµРЅРёРµ: РњР¤РўР(Р“РЈ) Р¤РР’Рў 296
+ *РЅР°РїСЂР°РІР»РµРЅРёРµ: РџСЂРёРєР»Р°РґРЅР°СЏ РњР°С‚РµРјР°С‚РёРєР° Рё РРЅС„РѕСЂРјР°С‚РёРєР°
  *
- *WinApi Второе задание
+ *WinApi Р’С‚РѕСЂРѕРµ Р·Р°РґР°РЅРёРµ
  *
  */
 
@@ -29,12 +29,12 @@ int _stdcall wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR comm
 
 	MSG message;
 	BOOL getMessageResult = 0;
-	while( ( getMessageResult = GetMessage( &message, NULL, 0, 0 ) ) != 0 ) {
+	while( ( getMessageResult = ::GetMessage( &message, NULL, 0, 0 ) ) != 0 ) {
 		if ( getMessageResult == -1 ) {
 			return -1;
 		}
-		TranslateMessage(&message);
-		DispatchMessage(&message);
+		::TranslateMessage(&message);
+		::DispatchMessage(&message);
 	}
 
 	return message.wParam;

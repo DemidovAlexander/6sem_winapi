@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include "ellipseWindow.h"
 
 CEllipseWindow::CEllipseWindow() :
@@ -21,16 +21,16 @@ bool CEllipseWindow::RegisterClass(HINSTANCE hInstance) {
 	tag.lpfnWndProc = windowProc;
 	tag.cbClsExtra = 0;
 	tag.cbWndExtra = 0;
-	tag.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	tag.hCursor = LoadCursor(NULL, IDC_ARROW);
-	tag.hbrBackground =  (HBRUSH)GetStockObject(WHITE_BRUSH);
+	tag.hIcon = ::LoadIcon(NULL, IDI_APPLICATION);
+	tag.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+	tag.hbrBackground =  (HBRUSH)::GetStockObject(WHITE_BRUSH);
 	tag.lpszMenuName = NULL;
 	tag.lpszClassName = nameClassWindow;
 	tag.hInstance = hInstance;
 	tag.hIconSm = NULL;
 
-	if ( !RegisterClassEx(&tag) ) {
-		MessageBox( NULL, L"Can't register class", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
+	if ( !::RegisterClassEx(&tag) ) {
+		::MessageBox( NULL, L"Can't register class", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 
@@ -39,7 +39,7 @@ bool CEllipseWindow::RegisterClass(HINSTANCE hInstance) {
 
 bool CEllipseWindow::Create(HINSTANCE hInstance, HWND parentHandle, int id) {
 	RECT rect;
-    GetClientRect( parentHandle, &rect );
+	::GetClientRect( parentHandle, &rect );
 
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
@@ -66,11 +66,11 @@ bool CEllipseWindow::Create(HINSTANCE hInstance, HWND parentHandle, int id) {
 		break;
 	}
 
-	handle = CreateWindow( nameClassWindow, nameWindow, WS_CHILD | WS_VISIBLE | WS_BORDER,
+	handle = ::CreateWindow( nameClassWindow, nameWindow, WS_CHILD | WS_VISIBLE | WS_BORDER,
         xPosition, yPosition, width / 2, height / 2, parentHandle, NULL, hInstance, this );
 
     if (handle == NULL) {
-		MessageBox( NULL, L"Can't got handle", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
+		::MessageBox( NULL, L"Can't got handle", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 
@@ -82,110 +82,107 @@ void CEllipseWindow::Show(int cmdShow) {
 	ShowWindow( handle, cmdShow );
 }
 
-HWND CEllipseWindow::getHandle() {
+HWND CEllipseWindow::GetHandle() {
 	return handle;
 }
 
-void CEllipseWindow::onDestroy() {
-	KillTimer( handle, timerID );
-	PostQuitMessage( 0 );	
+void CEllipseWindow::OnDestroy() {
+	::KillTimer( handle, timerID );
+	::PostQuitMessage( 0 );
 }
 
-void CEllipseWindow::onPaint() {	
+void CEllipseWindow::OnPaint() {	
 	PAINTSTRUCT ps;
-	HDC hdc = BeginPaint( handle, &ps );
-	HDC newHdc = CreateCompatibleDC(hdc);
+	HDC hdc = ::BeginPaint( handle, &ps );
+	HDC newHdc = ::CreateCompatibleDC(hdc);
 	RECT rect;
-	GetClientRect(handle, &rect);
+	::GetClientRect(handle, &rect);
 
-	HBITMAP bitmap = CreateCompatibleBitmap( hdc, rect.right - rect.left, rect.bottom - rect.top );
-	HGDIOBJ oldbitmap = SelectObject(newHdc, bitmap);
+	HBITMAP bitmap = ::CreateCompatibleBitmap( hdc, rect.right - rect.left, rect.bottom - rect.top );
+	HGDIOBJ oldbitmap = ::SelectObject(newHdc, bitmap);
 
 	drawEllipse(newHdc);
 
-	BitBlt( hdc, 0, 0, rect.right, rect.bottom, newHdc, 0, 0, SRCCOPY );
+	::BitBlt( hdc, 0, 0, rect.right, rect.bottom, newHdc, 0, 0, SRCCOPY );
 	
-	SelectObject(newHdc, oldbitmap);
-	DeleteObject(bitmap);
+	::SelectObject(newHdc, oldbitmap);
+	::DeleteObject(bitmap);
 
-	DeleteDC(hdc);
-	DeleteDC(newHdc);
+	::DeleteDC(hdc);
+	::DeleteDC(newHdc);
 
-	EndPaint(handle, &ps);
+	::EndPaint(handle, &ps);
 }
 
-void CEllipseWindow::onTimer() {
+void CEllipseWindow::OnTimer() {
 	RECT rect;
-	if (GetClientRect(handle, &rect)) {
-		ellipse.moveEllipse();
-		InvalidateRect( handle, &rect, false );
+	if (::GetClientRect(handle, &rect)) {
+		ellipse.MoveEllipse();
+		::InvalidateRect( handle, &rect, false );
 	}
 }
 
-void CEllipseWindow::onSize() {
+void CEllipseWindow::OnSize() {
 	RECT rect;
-	if (GetClientRect(handle, &rect)) {
-		ellipse.setRect(rect);
-		ellipse.moveEllipse();
-		InvalidateRect( handle, &rect, false );
+	if (::GetClientRect(handle, &rect)) {
+		ellipse.SetRect(rect);
+		ellipse.MoveEllipse();
+		::InvalidateRect( handle, &rect, false );
 	}
 }
 
-void CEllipseWindow::onClick() {
-	SetFocus(handle);
+void CEllipseWindow::OnClick() {
+	::SetFocus(handle);
 }
 
 LRESULT __stdcall CEllipseWindow::windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam ) {
 	if (message == WM_NCCREATE) { 
 		CEllipseWindow* that = reinterpret_cast< CEllipseWindow* >( reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams ); 
-		SetWindowLong( handle, GWL_USERDATA, reinterpret_cast<LONG>(that) );  
+		::SetWindowLong( handle, GWL_USERDATA, reinterpret_cast<LONG>(that) );
 
-		that->timerID = SetTimer( handle, 0, 1, NULL );
+		that->timerID = ::SetTimer( handle, 0, 1, NULL );
 		if (that->timerID == 0) {
-			MessageBox( NULL, L"Can't Set Timer", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
+			::MessageBox( NULL, L"Can't Set Timer", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 		}
 
-		return DefWindowProc( handle, message, wParam, lParam ); 
+		return ::DefWindowProc( handle, message, wParam, lParam );
 	} 
 
-	CEllipseWindow* that = reinterpret_cast< CEllipseWindow* >( GetWindowLong( handle, GWL_USERDATA) );
+	CEllipseWindow* that = reinterpret_cast< CEllipseWindow* >(::GetWindowLong( handle, GWL_USERDATA) );
 
 	switch( message ) {
 		case WM_DESTROY:
-			that->onDestroy();
+			that->OnDestroy();
 			return 0;
 		case WM_PAINT:
-			that->onPaint();
+			that->OnPaint();
 			return 0;
 		case WM_TIMER:
-			that->onTimer();
+			that->OnTimer();
 			return 0;
 		case WM_CLOSE:
-			//todo -OnClose
 			DestroyWindow(handle);
 			return 0;
 		case WM_SIZE:
-			that->onSize();
+			that->OnSize();
 			return 0;
 		case WM_LBUTTONDOWN:
-            that->onClick();
+            that->OnClick();
 			return 0;
 		default:
-			return DefWindowProc( handle, message, wParam, lParam );
-	}
-
-	
+			return ::DefWindowProc( handle, message, wParam, lParam );
+	}	
 }
 
 void CEllipseWindow::drawEllipse(HDC dc) {
 	RECT rect;
 
-	GetClientRect(handle, &rect);
+	::GetClientRect(handle, &rect);
 
-	HBRUSH brush = CreateSolidBrush( RGB( 0, 150, 100) );
-	FillRect( dc, &rect, brush );
-	DeleteObject(brush);
+	HBRUSH brush = ::CreateSolidBrush( RGB( 0, 150, 100) );
+	::FillRect( dc, &rect, brush );
+	::DeleteObject(brush);
 
-	ellipse.setRect(rect);
-	ellipse.drawEllipse(dc, handle);
+	ellipse.SetRect(rect);
+	ellipse.DrawEllipse(dc, handle);
 }

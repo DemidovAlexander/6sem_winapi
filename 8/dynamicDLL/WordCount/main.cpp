@@ -1,4 +1,4 @@
-#include <Windows.h>
+﻿#include <Windows.h>
 
 BOOL __stdcall DllMain( HMODULE hModule,
 					   DWORD ul_reason_for_call,

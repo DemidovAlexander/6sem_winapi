@@ -1,12 +1,12 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 
-class ÑEllipse {
+class Ð¡Ellipse {
 public:
-	ÑEllipse( int, int, int, int, int );
+	Ð¡Ellipse( int, int, int, int, int );
 	
-	void drawEllipse(HDC dc, HWND handle);
-	void moveEllipse();
-	void setRect(RECT rect);
+	void DrawEllipse(HDC dc, HWND handle);
+	void MoveEllipse();
+	void SetRect(RECT rect);
 
 private:
 	int centerx, centery, speedx, speedy;

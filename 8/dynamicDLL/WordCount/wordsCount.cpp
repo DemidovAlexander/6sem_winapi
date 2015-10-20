@@ -1,4 +1,4 @@
-#include "wordsCount.h"
+﻿#include "wordsCount.h"
 #include <wchar.h>
 
 int WordsCount( const wchar_t* text ) {

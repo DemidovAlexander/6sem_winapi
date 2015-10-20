@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <windows.h>
 #include "windowSettings.h"
@@ -13,13 +13,13 @@ public:
     COverlappedWindow();
     ~COverlappedWindow();
 
-    // Зарегистрировать класс окна
+    // Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РєР»Р°СЃСЃ РѕРєРЅР°
     static bool RegisterClass(HINSTANCE hInstance);
 
-    // Создать экземпляр окна
+    // РЎРѕР·РґР°С‚СЊ СЌРєР·РµРјРїР»СЏСЂ РѕРєРЅР°
     bool Create(HINSTANCE hInstance, int cmdShow);
 
-    // Показать окно
+    // РџРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ
     void Show();	
 	void CreateDialogWindow(int cmdShow);
 	void ApplySettings();
@@ -42,12 +42,14 @@ private:
 	static wchar_t* nameClassWindow; 
 	static wchar_t* nameWindow; 
 
-    HWND handle; // хэндл окна
-	HWND editControlHandle; // хэндл edit control
-	HWND dialogHandle; // хэндл диалогового окна
+    HWND handle;
+	HWND editControlHandle;
+	HWND dialogHandle;
 
 	HINSTANCE hinstLib;
 	MYPROC WordsCount;
+
+	HFONT hFont;
 
 	int cmdShow;
 

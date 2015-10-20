@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <windows.h>
 
@@ -6,45 +6,45 @@ class WindowSettings {
 public:
 	WindowSettings();
 
-	void applyEdits();
+	void ApplyEdits();
 
-	void restoreEdits();
+	void RestoreEdits();
 
-	int getFontSize();
+	int GetFontSize();
 
-	int getTransparency();
+	int GetTransparency();
 
-	int getOldTransparency();
+	int GetOldTransparency();
 
-	int getOldFontSize();
+	int GetOldFontSize();
 
-	COLORREF getFontColor();
+	COLORREF GetFontColor();
 
-	COLORREF getBackgroundColor();
+	COLORREF GetBackgroundColor();
 
-	COLORREF getOldFontColor();
+	COLORREF GetOldFontColor();
 
-	COLORREF getOldBackgroundColor();
+	COLORREF GetOldBackgroundColor();
 
-	bool isPreviewEnabled();
+	bool IsPreviewEnabled();
 
-	void setFontSize(int newFontSize);
+	void SetFontSize(int newFontSize);
 
-	void setTransparency(int newTransparency);
+	void SetTransparency(int newTransparency);
 
-	void setFontColor(COLORREF newColor);
+	void SetFontColor(COLORREF newColor);
 
-	void setBackgroundColor(COLORREF newColor);
+	void SetBackgroundColor(COLORREF newColor);
 
-	void setHwndDlg(HWND hwndDlg);
+	void SetHwndDlg(HWND hwndDlg);
 
-	BOOL chooseFontColor();
+	BOOL ChooseFontColor();
 
-	BOOL chooseBackgroundColor();
+	BOOL ChooseBackgroundColor();
 
-	void enablePreview();
+	void EnablePreview();
 
-	void disablePreview();
+	void DisablePreview();
 
 private:
 	int fontSize;

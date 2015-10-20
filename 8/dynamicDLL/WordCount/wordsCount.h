@@ -1,4 +1,4 @@
-#ifdef WORDSCOUNT_EXPORTS
+﻿#ifdef WORDSCOUNT_EXPORTS
 #define WORDSCOUNT_API __declspec(dllexport) 
 #else
 #define WORDSCOUNT_API __declspec(dllimport) 

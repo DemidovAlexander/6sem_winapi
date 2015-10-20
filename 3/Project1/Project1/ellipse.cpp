@@ -1,7 +1,7 @@
-#include "ellipse.h"
+ï»¿#include "ellipse.h"
 #include <iostream>
 
-ÑEllipse::ÑEllipse( int cx, int cy, int spx, int spy, int r ) {
+Ð¡Ellipse::Ð¡Ellipse( int cx, int cy, int spx, int spy, int r ) {
 	centerx = cx;
 	centery = cy;
 	speedx = spx;
@@ -9,7 +9,7 @@
 	radius = r;
 }
 
-void ÑEllipse::setRect(RECT rect) {
+void Ð¡Ellipse::SetRect(RECT rect) {
 	border = rect;
 
 	if( centerx - radius <= border.left ) {
@@ -29,7 +29,7 @@ void ÑEllipse::setRect(RECT rect) {
 	}
 }
 
-void ÑEllipse::moveEllipse() {
+void Ð¡Ellipse::MoveEllipse() {
 	int newCordx = centerx + speedx;
 	int newCordy = centery + speedy;
 	std::swap(newCordx, centerx);
@@ -59,17 +59,17 @@ void ÑEllipse::moveEllipse() {
 	}
 }
 
-void ÑEllipse::drawEllipse(HDC dc, HWND handle) {
-	HBRUSH firstBrush = CreateSolidBrush( RGB( 0, 200, 255 ) );
-	HBRUSH secondBrush = CreateSolidBrush( RGB( 255, 255, 0 ) );
+void Ð¡Ellipse::DrawEllipse(HDC dc, HWND handle) {
+	HBRUSH firstBrush = ::CreateSolidBrush( RGB( 0, 200, 255 ) );
+	HBRUSH secondBrush = ::CreateSolidBrush( RGB( 255, 255, 0 ) );
 
-	SelectObject( dc, firstBrush );
-	if( handle == GetFocus() ) {
-		SelectObject( dc, secondBrush );
+	::SelectObject( dc, firstBrush );
+	if( handle == ::GetFocus() ) {
+		::SelectObject( dc, secondBrush );
 	}
 
-	Ellipse( dc, centerx - radius, centery - radius, centerx + radius, centery + radius );
+	::Ellipse( dc, centerx - radius, centery - radius, centerx + radius, centery + radius );
 
-	DeleteObject(secondBrush);
-	DeleteObject(firstBrush);
+	::DeleteObject(secondBrush);
+	::DeleteObject(firstBrush);
 }

@@ -1,4 +1,4 @@
-#include <windows.h>
+п»ї#include <windows.h>
 #include <CommCtrl.h>
 #include <tchar.h>
 #include "overlappedWindow.h"
@@ -8,20 +8,24 @@
 BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 int getPixelSize(int fontSize) {
-	HDC dc = GetDC(NULL);
+	HDC dc = ::GetDC(NULL);
 	int pexelsy = ::GetDeviceCaps(dc, LOGPIXELSY);
-	DeleteDC(dc);
-	return MulDiv(fontSize, pexelsy, 72);
+	::DeleteDC(dc);
+	return ::MulDiv(fontSize, pexelsy, 72);
 }
 
 COverlappedWindow::COverlappedWindow() :
-	handle(0), wasChanged(false), backgroundBrush(CreateSolidBrush(RGB(255, 255, 255)))
+	handle(0), 
+	wasChanged(false), 
+	backgroundBrush(::CreateSolidBrush(RGB(255, 255, 255))),
+	hFont(reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT)))
 {
 }
 
 COverlappedWindow::~COverlappedWindow() {
-	FreeLibrary(hinstLib);
-	DeleteObject(backgroundBrush);
+	::FreeLibrary(hinstLib);
+	::DeleteObject(hFont);
+	::DeleteObject(backgroundBrush);
 }
 
 wchar_t* COverlappedWindow::nameClassWindow = L"ClassOverlappedWindow";
@@ -61,12 +65,12 @@ void COverlappedWindow::CreateDialogWindow(int cmdShow) {
 	HWND hFontSize = ::GetDlgItem(dialogHandle, IDC_SLIDER2);
 
 	::SendMessage(hTransparency, TBM_SETRANGE, FALSE, MAKELPARAM(0, 255));
-	::SendMessage(hTransparency, TBM_SETPOS, TRUE, settings.getTransparency());
+	::SendMessage(hTransparency, TBM_SETPOS, TRUE, settings.GetTransparency());
 	::SendMessage(hFontSize, TBM_SETRANGE, FALSE, MAKELPARAM(8, 72));
-	::SendMessage(hFontSize, TBM_SETPOS, TRUE, settings.getFontSize());
+	::SendMessage(hFontSize, TBM_SETPOS, TRUE, settings.GetFontSize());
 
-	DeleteObject(hTransparency);
-	DeleteObject(hFontSize);
+	::DeleteObject(hTransparency);
+	::DeleteObject(hFontSize);
 
 	::ShowWindow(dialogHandle, cmdShow);
 }
@@ -99,21 +103,22 @@ bool COverlappedWindow::Create(HINSTANCE hInstance, int nCmdShow) {
 
 	LOGFONT logFont;
 	::ZeroMemory(&logFont, sizeof(logFont));
-	logFont.lfHeight = -getPixelSize(settings.getFontSize());
+	logFont.lfHeight = -getPixelSize(settings.GetFontSize());
 	_tcscpy_s(logFont.lfFaceName, L"Arial");
-	HFONT hFont = CreateFontIndirect(&logFont);
-	SendMessage(editControlHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
-	DeleteObject(hFont);
 
-	SetLayeredWindowAttributes(handle, RGB(0, 0, 0), settings.getTransparency(), LWA_ALPHA);
+	::DeleteObject(hFont);
+	hFont = ::CreateFontIndirect(&logFont);
+	::SendMessage(editControlHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
+
+	::SetLayeredWindowAttributes(handle, RGB(0, 0, 0), settings.GetTransparency(), LWA_ALPHA);
 
 	HRSRC resource = ::FindResource( hInstance, MAKEINTRESOURCE(IDR_INITIALMESSAGE1), L"INITIALMESSAGE" );
 	HGLOBAL resourceHandle = ::LoadResource( hInstance, resource );
 	wchar_t* text = ( wchar_t * )::LockResource( resourceHandle );
 	::SetWindowText( editControlHandle, (LPCWSTR)text );
 
-	hinstLib = LoadLibrary(TEXT("WordsCountDLL.dll"));
-	WordsCount = (MYPROC)GetProcAddress(hinstLib, "WordsCount");
+	hinstLib = ::LoadLibrary(TEXT("WordsCountDLL.dll"));
+	WordsCount = (MYPROC)::GetProcAddress(hinstLib, "WordsCount");
 
 	return true;	
 }
@@ -163,11 +168,12 @@ bool COverlappedWindow::Save() {
                            
 	DWORD bytesWritten = 0;
 	HANDLE fileHandle = ::CreateFile( ofn.lpstrFile, GENERIC_WRITE,
-	FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				
 	short bom = 0xFEFF;
 	if ( !::WriteFile( fileHandle, &bom, 2, &bytesWritten, NULL ) || 
 		!::WriteFile( fileHandle, buffer, length * sizeof( wchar_t ), &bytesWritten, NULL )  ) {
+		
 		::MessageBox( handle, L"Can't write file", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 		delete [] buffer; 
 		return true;
@@ -195,7 +201,7 @@ void COverlappedWindow::OnSize() {
 
 void COverlappedWindow::OnClose() {
 	if (wasChanged) {
-		int msgboxID = ::MessageBox( handle, (LPCWSTR)L"Сохранить изменения?", (LPCWSTR)L"Сохранение",
+		int msgboxID = ::MessageBox( handle, (LPCWSTR)L"РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?", (LPCWSTR)L"РЎРѕС…СЂР°РЅРµРЅРёРµ",
 			MB_YESNOCANCEL | MB_ICONWARNING );
 
 		switch (msgboxID) {
@@ -208,7 +214,7 @@ void COverlappedWindow::OnClose() {
 				return;
 		}
 	}
-	DestroyWindow(handle);
+	::DestroyWindow(handle);
 }
 
 void COverlappedWindow::OnCountWords() {
@@ -242,30 +248,30 @@ void COverlappedWindow::OnCommand(WPARAM wParam) {
 		case 1:
 			switch (LOWORD(wParam)) { 
 			case ID_ACCELERATOR1: 
-				DestroyWindow(handle);
+				::SendMessage(handle, WM_CLOSE, NULL, NULL);
 				break;
 			}
 	}
 }
 
 LRESULT COverlappedWindow::OnCtlcoloredit(WPARAM wParam) {
-	DeleteObject(backgroundBrush);
+	::DeleteObject(backgroundBrush);
 
 	COLORREF fontColor;
 	COLORREF backgroundColor;
 		
-	if (settings.isPreviewEnabled()) {
-		fontColor = settings.getFontColor();
-		backgroundColor = settings.getBackgroundColor();
+	if (settings.IsPreviewEnabled()) {
+		fontColor = settings.GetFontColor();
+		backgroundColor = settings.GetBackgroundColor();
 	} else {
-		fontColor = settings.getOldFontColor();
-		backgroundColor = settings.getOldBackgroundColor();
+		fontColor = settings.GetOldFontColor();
+		backgroundColor = settings.GetOldBackgroundColor();
 	}
 
-	SetTextColor((HDC)wParam, fontColor);
-	SetBkColor((HDC)wParam, backgroundColor);
+	::SetTextColor((HDC)wParam, fontColor);
+	::SetBkColor((HDC)wParam, backgroundColor);
 
-	backgroundBrush = CreateSolidBrush(backgroundColor);
+	backgroundBrush = ::CreateSolidBrush(backgroundColor);
 
 	return (LRESULT)backgroundBrush;
 }
@@ -274,97 +280,102 @@ void COverlappedWindow::ApplySettings() {
 	int transparency;
 	int fontSize;
 	
-	if (settings.isPreviewEnabled()) {
-		transparency = settings.getTransparency();
-		fontSize = settings.getFontSize();
+	if (settings.IsPreviewEnabled()) {
+		transparency = settings.GetTransparency();
+		fontSize = settings.GetFontSize();
 	} else {
-		transparency = settings.getOldTransparency();
-		fontSize = settings.getOldFontSize();
+		transparency = settings.GetOldTransparency();
+		fontSize = settings.GetOldFontSize();
 	}
 
-	SetLayeredWindowAttributes(handle, RGB(0, 0, 0), transparency, LWA_ALPHA);
+	::SetLayeredWindowAttributes(handle, RGB(0, 0, 0), transparency, LWA_ALPHA);
 
 	LOGFONT logFont;
-	HFONT hFont = reinterpret_cast<HFONT>(::SendMessage( editControlHandle, WM_GETFONT, 0, 0 ));
 	if (hFont == NULL) {
 		hFont = reinterpret_cast<HFONT>(::GetStockObject( DEFAULT_GUI_FONT ));
 	}
+
 	::GetObject(hFont, sizeof(LOGFONT), &logFont);
 	logFont.lfHeight = -getPixelSize(fontSize);
-	DeleteObject(hFont);
-	hFont = CreateFontIndirect(&logFont);
-	SendMessage(editControlHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
-	DeleteObject(hFont);
+
+	::DeleteObject(hFont);
+	hFont = ::CreateFontIndirect(&logFont);
+	::SendMessage(editControlHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
 }
 
 BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-	COverlappedWindow* that = reinterpret_cast< COverlappedWindow* >(GetWindowLong(GetParent(hwndDlg), GWL_USERDATA));
+	COverlappedWindow* that = reinterpret_cast< COverlappedWindow* >(::GetWindowLong(::GetParent(hwndDlg), GWL_USERDATA));
 
 	switch (message) {
 		case WM_HSCROLL:
 		{
-			HWND hTransparency = GetDlgItem(hwndDlg, IDC_SLIDER1);
-			HWND hFontSize = GetDlgItem(hwndDlg, IDC_SLIDER2);
+			HWND hTransparency = ::GetDlgItem(hwndDlg, IDC_SLIDER1);
+			HWND hFontSize = ::GetDlgItem(hwndDlg, IDC_SLIDER2);
 
-			that->settings.setTransparency(SendMessage(hTransparency, TBM_GETPOS, 0, 0));
-			that->settings.setFontSize(SendMessage(hFontSize, TBM_GETPOS, 0, 0));
+			that->settings.SetTransparency(::SendMessage(hTransparency, TBM_GETPOS, 0, 0));
+			that->settings.SetFontSize(::SendMessage(hFontSize, TBM_GETPOS, 0, 0));
 		
 			that->ApplySettings();
 
-			DeleteObject(hTransparency);
-			DeleteObject(hFontSize);
+			::DeleteObject(hTransparency);
+			::DeleteObject(hFontSize);
 			return FALSE;
 		}
+
 		case WM_CLOSE:
-			DestroyWindow(hwndDlg);
+			::DestroyWindow(hwndDlg);
 			return TRUE;
+
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case IDOK:
-					that->settings.enablePreview();
-					that->settings.applyEdits();
+					that->settings.EnablePreview();
+					that->settings.ApplyEdits();
 					that->ApplySettings();
-					that->settings.disablePreview();
-					DestroyWindow(hwndDlg);
+					that->settings.DisablePreview();
+					::DestroyWindow(hwndDlg);
 					return TRUE;
+
 				case IDCANCEL:
-					that->settings.enablePreview();
-					that->settings.restoreEdits();
+					that->settings.EnablePreview();
+					that->settings.RestoreEdits();
 					that->ApplySettings();
-					that->settings.disablePreview();
-					DestroyWindow(hwndDlg);
+					that->settings.DisablePreview();
+					::DestroyWindow(hwndDlg);
 					return TRUE;
+
 				case IDC_CHECK1:
 				{
-					HWND hwndCheck = GetDlgItem(hwndDlg, IDC_CHECK1);
+					HWND hwndCheck = ::GetDlgItem(hwndDlg, IDC_CHECK1);
 
-					LRESULT res = SendMessage(hwndCheck, BM_GETCHECK, 0, 0);
+					LRESULT res = ::SendMessage(hwndCheck, BM_GETCHECK, 0, 0);
 					if (res == BST_CHECKED) {
-						that->settings.enablePreview();
+						that->settings.EnablePreview();
 					}
 
 					if (res == BST_UNCHECKED) {
-						that->settings.disablePreview();
+						that->settings.DisablePreview();
 					}
 
 					that->ApplySettings();
 
-					DeleteObject(hwndCheck);
+					::DeleteObject(hwndCheck);
 					return FALSE;
 				}
-				case IDC_BUTTON1:
-					that->settings.setHwndDlg(hwndDlg);
 
-					if (that->settings.chooseFontColor()) {
+				case IDC_BUTTON1:
+					that->settings.SetHwndDlg(hwndDlg);
+
+					if (that->settings.ChooseFontColor()) {
 						that->ApplySettings();
 					}
 
 					return FALSE;
 
 				case IDC_BUTTON2:
-					that->settings.setHwndDlg(hwndDlg);
+					that->settings.SetHwndDlg(hwndDlg);
 
-					if (that->settings.chooseBackgroundColor()) {
+					if (that->settings.ChooseBackgroundColor()) {
 						that->ApplySettings();
 					}
 
@@ -399,7 +410,7 @@ LRESULT __stdcall COverlappedWindow::windowProc( HWND handle, UINT message, WPAR
 			that->OnCommand(wParam);
 			return 0;
 		case WM_CTLCOLOREDIT:
-			return that->OnCtlcoloredit(wParam);			
+			return that->OnCtlcoloredit(wParam);
 	}
 
 	return ::DefWindowProc( handle, message, wParam, lParam );

@@ -30,9 +30,9 @@ void PrintCard(HWND staticHandle, Card &card, bool wasDropped) {
 		text += std::to_string(card.requiredMetalAmount);
 	}
 
-	text += '\n\n';
+	text += "\n\n";
 	if ((card.requiredStoneAmount <= 0) || (card.requiredMetalAmount <= 0)) {
-		text += '\n\n';
+		text += "\n\n";
 	}
 
 	if (card.damage != 0) {
