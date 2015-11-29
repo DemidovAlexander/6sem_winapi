@@ -7,21 +7,21 @@ public:
 	PlayerState(bool _isAuto);
 	~PlayerState();
 
-	int GetTowerHeight();
+	int GetTowerHeight() const;
 
-	int GetWallHeight();
+	int GetWallHeight() const;
 
-	int GetMinesNumber();
+	int GetMinesNumber() const;
 
-	int GetQuarriesNumber();
+	int GetQuarriesNumber() const;
 
-	int GetStoneAmount();
+	int GetStoneAmount() const;
 
-	int GetMetalAmount();
+	int GetMetalAmount() const;
 
-	bool GetCanMove();
+	bool GetCanMove() const;
 
-	bool GetLastCardWasDropped();
+	bool GetLastCardWasDropped() const;
 
 	void ChangeTowerHeight(int modifier);
 
@@ -41,11 +41,11 @@ public:
 
 	void SetLastUsedCard(Card card);
 
-	bool IsAuto();
+	bool IsAuto() const;
 
 	Card GetLastUsedCard();
 
-	bool IsCardAvailable(Card card);
+	bool IsCardAvailable(const Card &card) const;
 
 	void UpdateResources();
 

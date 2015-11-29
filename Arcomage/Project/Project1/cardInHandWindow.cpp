@@ -5,20 +5,20 @@
 #include "cardInHandWindow.h"
 #include "utils.h"
 
-CardInHandWindow::CardInHandWindow(CardInHandState* _cardInHandState) :
+CardInHandWindow::CardInHandWindow(CardInHandState &_cardInHandState) :
 	cardInHandState(_cardInHandState),
 	backgroundBrush(CreateSolidBrush(RGB(255, 255, 255))),
 	handle(0)
 {
-	backgroundColor = GetCardColor((*cardInHandState).card);
+	backgroundColor = ::GetCardColor(cardInHandState.GetCard());
 }
 
 CardInHandWindow::~CardInHandWindow() 
 {
 }
 
-wchar_t* CardInHandWindow::nameClassWindow = L"ClassCardInHandWindow";
-wchar_t* CardInHandWindow::nameWindow = L"CardInHandWindow";
+const wchar_t* CardInHandWindow::nameClassWindow = L"ClassCardInHandWindow";
+const wchar_t* CardInHandWindow::nameWindow = L"CardInHandWindow";
 
 bool CardInHandWindow::RegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEX tag;
@@ -29,14 +29,14 @@ bool CardInHandWindow::RegisterClass(HINSTANCE hInstance) {
 	tag.cbWndExtra = 0;
 	tag.hIcon = ::LoadIcon(NULL, IDI_APPLICATION);
 	tag.hCursor = ::LoadCursor(NULL, IDC_ARROW);
-	tag.hbrBackground =  (HBRUSH)GetStockObject(WHITE_BRUSH);
+	tag.hbrBackground =  (HBRUSH)::GetStockObject(WHITE_BRUSH);
 	tag.lpszMenuName = NULL;
 	tag.lpszClassName = nameClassWindow;
 	tag.hInstance = hInstance;
 	tag.hIconSm = NULL;
 
-	if ( !RegisterClassEx(&tag) ) {
-		MessageBox( NULL, L"Can't register class", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
+	if ( !::RegisterClassEx(&tag) ) {
+		::MessageBox( NULL, L"Can't register class", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 
@@ -65,12 +65,12 @@ bool CardInHandWindow::Create(HINSTANCE hInstance, HWND parentHandle, int nCmdSh
 
 	LOGFONT logFont;
 	::ZeroMemory(&logFont, sizeof(logFont));
-	logFont.lfHeight = -GetPixelSize(5);
+	logFont.lfHeight = -::GetPixelSize(5);
 	_tcscpy_s(logFont.lfFaceName, L"Arial");
-	HFONT hFont = CreateFontIndirect(&logFont);
-	SendMessage(staticHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
+	HFONT hFont = ::CreateFontIndirect(&logFont);
+	::SendMessage(staticHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
 
-	PrintCard(staticHandle, (*cardInHandState).card, false);
+	::PrintCard(staticHandle, cardInHandState.GetCard(), false);
 
 	return true;
 }
@@ -90,44 +90,42 @@ void CardInHandWindow::Show() {
 	::UpdateWindow(handle);
 }
 
-HWND CardInHandWindow::GetHandle() {
+HWND CardInHandWindow::GetHandle() const {
 	return handle;
 }
 
-HWND CardInHandWindow::GetStaticHandle() {
+HWND CardInHandWindow::GetStaticHandle() const {
 	return staticHandle;
 }
 
-void CardInHandWindow::OnDestroy() {
-	PostQuitMessage( 0 );	
-}
-
 void CardInHandWindow::OnLButtonDown() {
-	if ( (cardInHandState->playerState->GetCanMove()) && ((*cardInHandState).playerState->IsCardAvailable(cardInHandState->card)) ) {
-		cardInHandState->ApplyCard();
-		backgroundColor = GetCardColor(cardInHandState->card);
-		PrintCard(staticHandle, cardInHandState->card, false);
+	if ( (cardInHandState.GetPlayerState().GetCanMove()) 
+		&& (cardInHandState.GetPlayerState().IsCardAvailable(cardInHandState.GetCard())) )
+	{
+		cardInHandState.ApplyCard();
+		backgroundColor = ::GetCardColor(cardInHandState.GetCard());
+		::PrintCard(staticHandle, cardInHandState.GetCard(), false);
 	}
 }
 
-void CardInHandWindow::dropCardInHand() {
+void CardInHandWindow::DropCardInHand() {
 	OnRButtonDown();
 }
 
 void CardInHandWindow::OnRButtonDown() {
-	if ( cardInHandState->playerState->GetCanMove() ) {
-		cardInHandState->DropCard();
-		backgroundColor = GetCardColor(cardInHandState->card);
-		PrintCard(staticHandle, cardInHandState->card, false);
+	if ( cardInHandState.GetPlayerState().GetCanMove() ) {
+		cardInHandState.DropCard();
+		backgroundColor = ::GetCardColor(cardInHandState.GetCard());
+		::PrintCard(staticHandle, cardInHandState.GetCard(), false);
 	}
 }
 
 LRESULT CardInHandWindow::OnCtlcolorstatic(WPARAM wParam) {
-	DeleteObject(backgroundBrush);
+	::DeleteObject(backgroundBrush);
 
-	SetBkColor((HDC)wParam, backgroundColor);
+	::SetBkColor((HDC)wParam, backgroundColor);
 
-	backgroundBrush = CreateSolidBrush(backgroundColor);
+	backgroundBrush = ::CreateSolidBrush(backgroundColor);
 
 	return (LRESULT)backgroundBrush;
 }
@@ -135,16 +133,15 @@ LRESULT CardInHandWindow::OnCtlcolorstatic(WPARAM wParam) {
 LRESULT __stdcall CardInHandWindow::windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam ) {
 	if (message == WM_NCCREATE) { 
 		CardInHandWindow* that = reinterpret_cast< CardInHandWindow* >( reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams ); 
-		SetWindowLong( handle, GWL_USERDATA, reinterpret_cast<LONG>(that) );  
+		::SetWindowLong( handle, GWL_USERDATA, reinterpret_cast<LONG>(that) );  
 
-		return DefWindowProc( handle, message, wParam, lParam );
+		return ::DefWindowProc( handle, message, wParam, lParam );
 	} 
 
 	CardInHandWindow* that = reinterpret_cast< CardInHandWindow* >( GetWindowLong( handle, GWL_USERDATA) );
 
 	switch( message ) {
 		case WM_DESTROY:
-			that->OnDestroy();
 			return 0;
 		case WM_LBUTTONDOWN:
             that->OnLButtonDown();
@@ -154,7 +151,7 @@ LRESULT __stdcall CardInHandWindow::windowProc( HWND handle, UINT message, WPARA
 			return 0;
 		case WM_CTLCOLORSTATIC:
 			return that->OnCtlcolorstatic(wParam);	
-		default:
-			return DefWindowProc( handle, message, wParam, lParam );
-	}	
+	}
+
+	return ::DefWindowProc( handle, message, wParam, lParam );
 }

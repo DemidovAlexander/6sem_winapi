@@ -16,13 +16,13 @@ GameWindow::GameWindow() :
 	handle(0),
 	playerState(false),
 	autoPlayerState(true),
-	playerWindow(&playerState, &settings),
-	autoPlayerWindow(&autoPlayerState, &settings),
+	playerWindow(playerState, settings),
+	autoPlayerWindow(autoPlayerState, settings),
 	cardsDeckState(25),
-	playerHandState(&cardsDeckState, &playerState,& autoPlayerState),
-	autoPlayerHandState(&cardsDeckState, &autoPlayerState, &playerState),
-	playerInterfaceWindow(&playerHandState),
-	autoPlayer(&autoPlayerHandState),
+	playerHandState(cardsDeckState, playerState, autoPlayerState),
+	autoPlayerHandState(cardsDeckState, autoPlayerState, playerState),
+	playerInterfaceWindow(playerHandState),
+	autoPlayer(autoPlayerHandState, autoPlayerState, playerState, settings),
 	gameIsEnded(false),
 	isEnemyTurn(false)
 {
@@ -32,8 +32,8 @@ GameWindow::~GameWindow()
 {
 }
 
-wchar_t* GameWindow::nameClassWindow = L"ClassGameWindow";
-wchar_t* GameWindow::nameWindow = L"GameWindow";
+const wchar_t* GameWindow::nameClassWindow = L"ClassGameWindow";
+const wchar_t* GameWindow::nameWindow = L"GameWindow";
 
 bool GameWindow::RegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEX tag;
@@ -42,13 +42,13 @@ bool GameWindow::RegisterClass(HINSTANCE hInstance) {
 	tag.lpfnWndProc = windowProc;
 	tag.cbClsExtra = 0;
 	tag.cbWndExtra = 0;
-	tag.hIcon = ::LoadIcon(NULL, IDI_APPLICATION);
+	tag.hIcon = (HICON)::LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, LR_SHARED);
 	tag.hCursor = ::LoadCursor(NULL, IDC_ARROW);
 	tag.hbrBackground =  (HBRUSH)::GetStockObject(WHITE_BRUSH);
 	tag.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	tag.lpszClassName = nameClassWindow;
 	tag.hInstance = hInstance;
-	tag.hIconSm = NULL;
+	tag.hIconSm = (HICON)::LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16, 16, LR_SHARED);
 
 	if ( !::RegisterClassEx(&tag) ) {
 		::MessageBox( NULL, L"Can't register class", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
@@ -65,39 +65,39 @@ void GameWindow::CreateDialogWindow(int cmdShow) {
 		::MessageBox(handle, L"CreateDialog returned NULL", L"Warning!", MB_OK | MB_ICONINFORMATION);
 	}
 
-	HWND freezeTimeSlider = GetDlgItem(dialogHandle, IDC_SLIDER6);
+	HWND freezeTimeSlider = ::GetDlgItem(dialogHandle, IDC_SLIDER6);
 	::SendMessage(freezeTimeSlider, TBM_SETRANGE, FALSE, MAKELPARAM(0, 5));
 	::SendMessage(freezeTimeSlider, TBM_SETPOS, TRUE, 2);
 
-	HWND roundTimeSlider = GetDlgItem(dialogHandle, IDC_SLIDER5);
+	HWND roundTimeSlider = ::GetDlgItem(dialogHandle, IDC_SLIDER5);
 	::SendMessage(roundTimeSlider, TBM_SETRANGE, FALSE, MAKELPARAM(0, 6));
 	::SendMessage(roundTimeSlider, TBM_SETPOS, TRUE, 3);
 
-	HWND towerVictoryHeightSlider = GetDlgItem(dialogHandle, IDC_SLIDER2);
+	HWND towerVictoryHeightSlider = ::GetDlgItem(dialogHandle, IDC_SLIDER2);
 	::SendMessage(towerVictoryHeightSlider, TBM_SETRANGE, FALSE, MAKELPARAM(0, 150));
 	::SendMessage(towerVictoryHeightSlider, TBM_SETPOS, TRUE, 100);
 
-	HWND metalVictoryAmountSlider = GetDlgItem(dialogHandle, IDC_SLIDER3);
+	HWND metalVictoryAmountSlider = ::GetDlgItem(dialogHandle, IDC_SLIDER3);
 	::SendMessage(metalVictoryAmountSlider, TBM_SETRANGE, FALSE, MAKELPARAM(0, 200));
 	::SendMessage(metalVictoryAmountSlider, TBM_SETPOS, TRUE, 125);
 
-	HWND stoneVictoryAmountSlider = GetDlgItem(dialogHandle, IDC_SLIDER4);
+	HWND stoneVictoryAmountSlider = ::GetDlgItem(dialogHandle, IDC_SLIDER4);
 	::SendMessage(stoneVictoryAmountSlider, TBM_SETRANGE, FALSE, MAKELPARAM(0, 200));
 	::SendMessage(stoneVictoryAmountSlider, TBM_SETPOS, TRUE, 125);
 
 
-	settings.SetFreezeTime(SendMessage(freezeTimeSlider, TBM_GETPOS, 0, 0));
-	settings.SetRoundTime(SendMessage(roundTimeSlider, TBM_GETPOS, 0, 0));
+	settings.SetFreezeTime(::SendMessage(freezeTimeSlider, TBM_GETPOS, 0, 0));
+	settings.SetRoundTime(::SendMessage(roundTimeSlider, TBM_GETPOS, 0, 0));
 
-	settings.SetTowerVictoryHeight(SendMessage(towerVictoryHeightSlider, TBM_GETPOS, 0, 0));
-	settings.SetMetalVictoryAmount(SendMessage(metalVictoryAmountSlider, TBM_GETPOS, 0, 0));
-	settings.SetStoneVictoryAmount(SendMessage(stoneVictoryAmountSlider, TBM_GETPOS, 0, 0));
+	settings.SetTowerVictoryHeight(::SendMessage(towerVictoryHeightSlider, TBM_GETPOS, 0, 0));
+	settings.SetMetalVictoryAmount(::SendMessage(metalVictoryAmountSlider, TBM_GETPOS, 0, 0));
+	settings.SetStoneVictoryAmount(::SendMessage(stoneVictoryAmountSlider, TBM_GETPOS, 0, 0));
 
-	DeleteObject(freezeTimeSlider);
-	DeleteObject(roundTimeSlider);
-	DeleteObject(towerVictoryHeightSlider);
-	DeleteObject(metalVictoryAmountSlider);
-	DeleteObject(stoneVictoryAmountSlider);
+	::DeleteObject(freezeTimeSlider);
+	::DeleteObject(roundTimeSlider);
+	::DeleteObject(towerVictoryHeightSlider);
+	::DeleteObject(metalVictoryAmountSlider);
+	::DeleteObject(stoneVictoryAmountSlider);
 
 	::ShowWindow(dialogHandle, cmdShow);
 }
@@ -105,7 +105,8 @@ void GameWindow::CreateDialogWindow(int cmdShow) {
 bool GameWindow::Create(HINSTANCE hInstance, int nCmdShow) {
 	cmdShow = nCmdShow;
 
-	handle = ::CreateWindowEx( NULL, nameClassWindow, NULL, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME | WS_CLIPCHILDREN,
+	handle = ::CreateWindowEx( NULL, nameClassWindow, NULL,
+		WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME | WS_CLIPCHILDREN,
         200, 20, 1000, 700,
         NULL, NULL, hInstance, this );	
 
@@ -114,10 +115,10 @@ bool GameWindow::Create(HINSTANCE hInstance, int nCmdShow) {
 		return false;
 	}
 
-	playerWindow.Create( hInstance, handle, cmdShow);
-	autoPlayerWindow.Create( hInstance, handle, cmdShow);
-	logWindow.Create( hInstance, handle, cmdShow);
-	playerInterfaceWindow.Create( hInstance, handle, cmdShow);
+	playerWindow.Create( hInstance, handle, cmdShow );
+	autoPlayerWindow.Create( hInstance, handle, cmdShow );
+	logWindow.Create( hInstance, handle, cmdShow );
+	playerInterfaceWindow.Create( hInstance, handle, cmdShow );
 	
 
 	CreateDialogWindow(nCmdShow);
@@ -127,14 +128,14 @@ bool GameWindow::Create(HINSTANCE hInstance, int nCmdShow) {
 
 void GameWindow::Show() {
 	RECT rect;
-	if (GetClientRect(handle, &rect)) {
+	if (::GetClientRect(handle, &rect)) {
 		int width = rect.right - rect.left;
 		int height = rect.bottom - rect.top;
 
-		SetWindowPos( playerWindow.GetHandle(), NULL, 0, 0, width / 3 - 1, 2 * height / 3, 0 );
-		SetWindowPos( logWindow.GetHandle(), NULL, width / 3, 0, width / 3, 2 * height / 3, 0 );
-		SetWindowPos( autoPlayerWindow.GetHandle(), NULL, 2 * width / 3 + 1, 0, width / 3 - 1, 2 * height / 3, 0 );
-		SetWindowPos( playerInterfaceWindow.GetHandle(), NULL, 0, 2 * height / 3 + 1, width, height / 3, 0 );
+		::SetWindowPos( playerWindow.GetHandle(), NULL, 0, 0, width / 3 - 1, 2 * height / 3, 0 );
+		::SetWindowPos( logWindow.GetHandle(), NULL, width / 3, 0, width / 3, 2 * height / 3, 0 );
+		::SetWindowPos( autoPlayerWindow.GetHandle(), NULL, 2 * width / 3 + 1, 0, width / 3 - 1, 2 * height / 3, 0 );
+		::SetWindowPos( playerInterfaceWindow.GetHandle(), NULL, 0, 2 * height / 3 + 1, width, height / 3, 0 );
 	}
 
 	::UpdateWindow(handle);
@@ -148,17 +149,29 @@ void GameWindow::Show() {
 	::ShowWindow( handle, cmdShow );
 }
 
-HWND GameWindow::GetHandle() {
+HWND GameWindow::GetHandle() const {
 	return handle;
 }
 
-HWND GameWindow::GetDialogHandle() {
+HWND GameWindow::GetDialogHandle() const {
 	return dialogHandle;
 }
 
+void GameWindow::SetRemainingTime(int _remainingTime) {
+	remainingTime = _remainingTime;
+}
+
+void GameWindow::SetTimerID(UINT _timerID) {
+	timerID = _timerID;
+}
+
+UINT GameWindow::GetTimerID() const {
+	return timerID;
+}
+
 void GameWindow::OnDestroy() {
-	KillTimer( handle, timerID );
-	PostQuitMessage(0);
+	::KillTimer( handle, timerID );
+	::PostQuitMessage(0);
 }
 
 void GameWindow::OnTimer() {
@@ -166,13 +179,14 @@ void GameWindow::OnTimer() {
 		EnemyMove();
 		return;
 	}
+
 	if ( !gameIsEnded) {
 		--remainingTime;
 
 		if (remainingTime < 0) {
 			logWindow.PrintTimeIsOutMessage();
-			Sleep(1000);
-			playerInterfaceWindow.dropCardInHand(rand() % 5);
+			::Sleep(1000);
+			playerInterfaceWindow.DropCardInHand(rand() % 5);
 			YourMove();
 		} else {
 			logWindow.PrintChooseCardMessage(remainingTime);
@@ -193,8 +207,8 @@ void GameWindow::OnClose() {
 			return;
 	}
 
-	DestroyWindow(dialogHandle);
-	DestroyWindow(handle);
+	::DestroyWindow(dialogHandle);
+	::DestroyWindow(handle);
 }
 
 void GameWindow::OnCommand(WPARAM wParam) {
@@ -211,37 +225,37 @@ void GameWindow::OnCommand(WPARAM wParam) {
 		case 1:
 			switch (LOWORD(wParam)) { 
 			case ID_ACCELERATOR1: 
-				DestroyWindow(handle);
+				::DestroyWindow(handle);
 				break;
 			}
 	}
 }
 
 BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-	GameWindow* that = reinterpret_cast< GameWindow* >(GetWindowLong(GetParent(hwndDlg), GWL_USERDATA));
+	GameWindow* that = reinterpret_cast< GameWindow* >(::GetWindowLong(::GetParent(hwndDlg), GWL_USERDATA));
 
 	switch (message) {
 		case WM_HSCROLL:
 		{
-			HWND freezeTimeSlider = GetDlgItem(hwndDlg, IDC_SLIDER6);
-			HWND roundTimeSlider = GetDlgItem(hwndDlg, IDC_SLIDER5);
-			HWND towerVictoryHeightSlider = GetDlgItem(hwndDlg, IDC_SLIDER2);
-			HWND metalVictoryAmountSlider = GetDlgItem(hwndDlg, IDC_SLIDER3);
-			HWND stoneVictoryAmountSlider = GetDlgItem(hwndDlg, IDC_SLIDER4);
+			HWND freezeTimeSlider = ::GetDlgItem(hwndDlg, IDC_SLIDER6);
+			HWND roundTimeSlider = ::GetDlgItem(hwndDlg, IDC_SLIDER5);
+			HWND towerVictoryHeightSlider = ::GetDlgItem(hwndDlg, IDC_SLIDER2);
+			HWND metalVictoryAmountSlider = ::GetDlgItem(hwndDlg, IDC_SLIDER3);
+			HWND stoneVictoryAmountSlider = ::GetDlgItem(hwndDlg, IDC_SLIDER4);
 
 
-			that->settings.SetFreezeTime(SendMessage(freezeTimeSlider, TBM_GETPOS, 0, 0));
-			that->settings.SetRoundTime(SendMessage(roundTimeSlider, TBM_GETPOS, 0, 0));
+			that->settings.SetFreezeTime(::SendMessage(freezeTimeSlider, TBM_GETPOS, 0, 0));
+			that->settings.SetRoundTime(::SendMessage(roundTimeSlider, TBM_GETPOS, 0, 0));
 
-			that->settings.SetTowerVictoryHeight(SendMessage(towerVictoryHeightSlider, TBM_GETPOS, 0, 0));
-			that->settings.SetMetalVictoryAmount(SendMessage(metalVictoryAmountSlider, TBM_GETPOS, 0, 0));
-			that->settings.SetStoneVictoryAmount(SendMessage(stoneVictoryAmountSlider, TBM_GETPOS, 0, 0));
+			that->settings.SetTowerVictoryHeight(::SendMessage(towerVictoryHeightSlider, TBM_GETPOS, 0, 0));
+			that->settings.SetMetalVictoryAmount(::SendMessage(metalVictoryAmountSlider, TBM_GETPOS, 0, 0));
+			that->settings.SetStoneVictoryAmount(::SendMessage(stoneVictoryAmountSlider, TBM_GETPOS, 0, 0));
 
-			DeleteObject(freezeTimeSlider);
-			DeleteObject(roundTimeSlider);
-			DeleteObject(towerVictoryHeightSlider);
-			DeleteObject(metalVictoryAmountSlider);
-			DeleteObject(stoneVictoryAmountSlider);
+			::DeleteObject(freezeTimeSlider);
+			::DeleteObject(roundTimeSlider);
+			::DeleteObject(towerVictoryHeightSlider);
+			::DeleteObject(metalVictoryAmountSlider);
+			::DeleteObject(stoneVictoryAmountSlider);
 
 			that->UpdatePlayersWindows();
 
@@ -253,14 +267,14 @@ BOOL __stdcall dialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case IDOK:
-					that->timerID = SetTimer( that->GetHandle(), 0, 1000, NULL );
-					if (that->timerID == 0) {
-						MessageBox( NULL, L"Can't Set Timer", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
+					that->SetTimerID(::SetTimer( that->GetHandle(), 0, 1000, NULL ));
+					if (that->GetTimerID() == 0) {
+						::MessageBox( NULL, L"Can't Set Timer", L"ERROR!", MB_OK | MB_ICONEXCLAMATION );
 					}
 
-					that->remainingTime = that->settings.GetRoundTime() * 10;
+					that->SetRemainingTime(that->settings.GetRoundTime() * 10);
 
-					DestroyWindow(hwndDlg);
+					::DestroyWindow(hwndDlg);
 					return TRUE;
 				case IDCANCEL:
 					::SendMessage(that->GetHandle(), WM_CLOSE, NULL, NULL);
@@ -281,14 +295,13 @@ void GameWindow::OnLoss() {
 	logWindow.PrintLossText();
 }
 
-bool GameWindow::CheckEndGame() {
+bool GameWindow::CheckGameEnd() {
 	if ((playerState.GetTowerHeight() >= settings.GetTowerVictoryHeight()) ||
 		((playerState.GetMetalAmount() >= settings.GetMetalVictoryAmount()) && 
 		(playerState.GetStoneAmount() >= settings.GetStoneVictoryAmount())) ||
 		(autoPlayerState.GetTowerHeight() <= 0))
 	{
 		OnVictory();
-
 		return true;
 	}
 
@@ -298,7 +311,6 @@ bool GameWindow::CheckEndGame() {
 		(playerState.GetTowerHeight() <= 0))
 	{
 		OnLoss();
-
 		return true;
 	}
 
@@ -306,40 +318,31 @@ bool GameWindow::CheckEndGame() {
 }
 
 void GameWindow::AutoMove() {
-	for (int i = 0; i < 5; ++i)	{
-		if (autoPlayer.playerHandState->cardInHandStates[i].playerState
-			->IsCardAvailable(autoPlayer.playerHandState->cardInHandStates[i].card)) {
-
-			autoPlayer.playerHandState->cardInHandStates[i].ApplyCard();
-			return;
-		}
-	}
-
-	autoPlayer.playerHandState->cardInHandStates[0].DropCard();
+	autoPlayer.Move();
 }
 
 void GameWindow::UpdatePlayersWindows() {
 	playerWindow.repainted = false;
 	autoPlayerWindow.repainted = false;
-	InvalidateRect (playerWindow.GetHandle(), NULL, true);
-	InvalidateRect (autoPlayerWindow.GetHandle(), NULL, true);
+	::InvalidateRect(playerWindow.GetHandle(), NULL, true);
+	::InvalidateRect(autoPlayerWindow.GetHandle(), NULL, true);
 }
 
 void GameWindow::EnemyMove() {
-	if ( ( !CheckEndGame() ) && (playerWindow.repainted) && (autoPlayerWindow.repainted) ) {
+	if ( ( !CheckGameEnd() ) && (playerWindow.repainted) && (autoPlayerWindow.repainted) ) {
 		logWindow.PrintEnemyMove();
-		Sleep(1000);
+		::Sleep(1000);
 
 		AutoMove();
 
 		logWindow.PrintCardLog(autoPlayerState.GetLastUsedCard(), autoPlayerState.GetLastCardWasDropped());
-		Sleep(settings.GetFreezeTime() * 2000);
+		::Sleep(settings.GetFreezeTime() * 2000);
 
 		playerState.UpdateResources();
 		autoPlayerState.UpdateResources();
 		UpdatePlayersWindows();
 
-		if ( !CheckEndGame() ) {
+		if ( !CheckGameEnd() ) {
 			remainingTime = settings.GetRoundTime() * 10;
 			playerState.SetCanMove(true);
 		}
@@ -350,7 +353,7 @@ void GameWindow::EnemyMove() {
 
 void GameWindow::YourMove() {
 	logWindow.PrintCardLog(playerState.GetLastUsedCard(), playerState.GetLastCardWasDropped());
-	Sleep(settings.GetFreezeTime() * 2000);
+	::Sleep(settings.GetFreezeTime() * 2000);
 	UpdatePlayersWindows();
 	isEnemyTurn = true;
 }
@@ -360,7 +363,7 @@ LRESULT __stdcall GameWindow::windowProc( HWND handle, UINT message, WPARAM wPar
 		GameWindow* that = reinterpret_cast< GameWindow* >( reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams ); 
 		::SetWindowLong( handle, GWL_USERDATA, reinterpret_cast<LONG>(that) );  
 
-		return ::DefWindowProc( handle, message, wParam, lParam ); 
+		return ::DefWindowProc( handle, message, wParam, lParam );
 	} 
 
 	GameWindow* that = reinterpret_cast< GameWindow* >( ::GetWindowLong( handle, GWL_USERDATA) );

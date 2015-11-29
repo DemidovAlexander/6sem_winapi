@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <memory>
 #include "resource.h"
 
 #include "gameWindow.h"
@@ -36,7 +37,7 @@ int _stdcall wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR comm
 		return 1;
 	}
 	
-	GameWindow* myGameWin = new GameWindow();
+	std::shared_ptr<GameWindow> myGameWin = std::make_shared<GameWindow>();
 	
 	if ( !myGameWin->Create(hInstance, nCmdShow) ) {
 		return 1;
@@ -56,9 +57,7 @@ int _stdcall wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR comm
 		if 	( message.message ==  WM_USER ) {
 			::SendMessage( myGameWin->GetHandle(), WM_DESTROY, NULL, NULL );
 
-			delete(myGameWin);
-
-			myGameWin = new GameWindow();
+			myGameWin = std::make_shared<GameWindow>();
 
 			if ( !myGameWin->Create(hInstance, nCmdShow) ) {
 				return 1;
@@ -73,8 +72,7 @@ int _stdcall wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR comm
 		}
 	}
 
-	DestroyAcceleratorTable(haccel);
-	delete(myGameWin);
+	::DestroyAcceleratorTable(haccel);
 
 	return message.wParam;
 }

@@ -9,27 +9,26 @@
 LogWindow::LogWindow() :
 	handle(0),
 	logHandle(0), 
-	backgroundBrush(CreateSolidBrush(RGB(255, 255, 255))),
+	backgroundBrush(::CreateSolidBrush(RGB(255, 255, 255))),
 	currentBackgroundColor(RGB(245, 255, 250)),
 	standardBackgroundColor(RGB(245, 255, 250))
 {
 }
 
 LogWindow::~LogWindow() {
-	DeleteObject(backgroundBrush);
+	::DeleteObject(backgroundBrush);
 }
 
-wchar_t* LogWindow::nameClassWindow = L"ClassLogWindow";
-wchar_t* LogWindow::nameWindow = L"LogWindow";
-wchar_t* LogWindow::initialText = L"Your game\nis starting now";
-wchar_t* LogWindow::timeIsOutText = L"Time is out";
-wchar_t* LogWindow::enemyMoveText = L"Enemy's turn\n";
+const wchar_t* LogWindow::nameClassWindow = L"ClassLogWindow";
+const wchar_t* LogWindow::nameWindow = L"LogWindow";
+const wchar_t* LogWindow::initialText = L"Your game\nis starting now";
+const wchar_t* LogWindow::timeIsOutText = L"Time is out";
+const wchar_t* LogWindow::enemyMoveText = L"Enemy's turn\n";
 
-wchar_t* LogWindow::victoryText = L"Victory!\n";
-wchar_t* LogWindow::lossText = L"Loss(\n";
+const wchar_t* LogWindow::victoryText = L"Victory!\n";
+const wchar_t* LogWindow::lossText = L"Loss(\n";
 
-std::string LogWindow::chooseCardText = "Choose card\n\n\n\n";
-
+const std::string LogWindow::chooseCardText = "Choose card\n\n\n\n";
 
 bool LogWindow::RegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEX tag;
@@ -76,10 +75,10 @@ bool LogWindow::Create(HINSTANCE hInstance, HWND parentHandle, int nCmdShow) {
 
 	LOGFONT logFont;
 	::ZeroMemory(&logFont, sizeof(logFont));
-	logFont.lfHeight = -GetPixelSize(11);
+	logFont.lfHeight = -::GetPixelSize(11);
 	_tcscpy_s(logFont.lfFaceName, L"Arial");
-	HFONT hFont = CreateFontIndirect(&logFont);
-	SendMessage(logHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
+	HFONT hFont = ::CreateFontIndirect(&logFont);
+	::SendMessage(logHandle, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
 
 	::SetWindowText( logHandle, (LPCWSTR)initialText );
 
@@ -101,24 +100,20 @@ void LogWindow::Show() {
 	::UpdateWindow(handle);
 }
 
-HWND LogWindow::GetHandle() {
+HWND LogWindow::GetHandle() const {
 	return handle;
 }
 
-HWND LogWindow::GetLogHandle() {
+HWND LogWindow::GetLogHandle() const {
 	return logHandle;
 }
 
-void LogWindow::OnDestroy() {
-	PostQuitMessage( 0 );	
-}
-
 LRESULT LogWindow::OnCtlcolorstatic(WPARAM wParam) {
-	DeleteObject(backgroundBrush);
+	::DeleteObject(backgroundBrush);
 
-	SetBkColor((HDC)wParam, currentBackgroundColor);
+	::SetBkColor((HDC)wParam, currentBackgroundColor);
 
-	backgroundBrush = CreateSolidBrush(currentBackgroundColor);
+	backgroundBrush = ::CreateSolidBrush(currentBackgroundColor);
 
 	return (LRESULT)backgroundBrush;
 }
@@ -151,11 +146,10 @@ void LogWindow::PrintLossText() {
 	::SetWindowText( logHandle, (LPCWSTR)lossText );
 }
 
-void LogWindow::PrintCardLog(Card& card, bool wasDropped) {
-	currentBackgroundColor = GetCardColor(card);
-	PrintCard(logHandle, card, wasDropped);
+void LogWindow::PrintCardLog(const Card& card, bool wasDropped) {
+	currentBackgroundColor = ::GetCardColor(card);
+	::PrintCard( logHandle, card, wasDropped );
 }
-
 
 LRESULT __stdcall LogWindow::windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam ) {
 	if (message == WM_NCCREATE) { 
@@ -169,7 +163,6 @@ LRESULT __stdcall LogWindow::windowProc( HWND handle, UINT message, WPARAM wPara
 
 	switch( message ) {
 		case WM_DESTROY:
-			that->OnDestroy();
 			return 0;
 		case WM_CTLCOLORSTATIC:
 			return that->OnCtlcolorstatic(wParam);	

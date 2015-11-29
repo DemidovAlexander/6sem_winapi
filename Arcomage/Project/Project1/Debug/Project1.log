@@ -1,26 +1,36 @@
-﻿Build started 20.10.2015 2:38:47.
-     1>Project "C:\Users\Александр\Desktop\Arcomage\Project\Project1\Project1.vcxproj" on node 2 (Build target(s)).
+﻿Build started 26.11.2015 14:09:37.
+     1>Project "C:\7semester\Собеседование в ЦМС\Презентация\arcomage\Arcomage\Project\Project1\Project1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt gameWindow.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt AIPlayer.cpp gameWindow.cpp main.cpp
          gameWindow.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Александр\Desktop\Arcomage\Project\Debug\Project1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Александр\Desktop\Arcomage\Project\Debug\Project1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Александр\Desktop\Arcomage\Project\Debug\Project1.lib" /MACHINE:X86 Debug\Project1.res
-         Debug\AIPlayer.obj
-         Debug\cardInHandState.obj
-         Debug\cardInHandWindow.obj
-         Debug\cardsDeckState.obj
-         Debug\logWindow.obj
-         Debug\main.obj
-         Debug\gameWindow.obj
-         Debug\playerHandState.obj
-         Debug\playerInterfaceWindow.obj
-         Debug\playerState.obj
-         Debug\playerWindow.obj
-         Debug\settings.obj
-         Debug\utils.obj
-         Project1.vcxproj -> C:\Users\Александр\Desktop\Arcomage\Project\Debug\Project1.exe
-     1>Done Building Project "C:\Users\Александр\Desktop\Arcomage\Project\Project1\Project1.vcxproj" (Build target(s)).
+         AIPlayer.cpp
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(23): error C2065: 'playerHandState': undeclared identifier
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(23): error C2228: left of '.cardInHandStates' must have class/struct/union
+         c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(23): note: type is 'unknown-type'
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(23): error C2228: left of '.GetPlayerState' must have class/struct/union
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(23): error C2228: left of '.IsCardAvailable' must have class/struct/union
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(24): error C2065: 'playerHandState': undeclared identifier
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(24): error C2228: left of '.cardInHandStates' must have class/struct/union
+         c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(24): note: type is 'unknown-type'
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(24): error C2228: left of '.GetCard' must have class/struct/union
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(26): error C2065: 'playerHandState': undeclared identifier
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(26): error C2228: left of '.cardInHandStates' must have class/struct/union
+         c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(26): note: type is 'unknown-type'
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(26): error C2228: left of '.GetCard' must have class/struct/union
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(35): error C2065: 'playerHandState': undeclared identifier
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(35): error C2228: left of '.cardInHandStates' must have class/struct/union
+         c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(35): note: type is 'unknown-type'
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(35): error C2228: left of '.ApplyCard' must have class/struct/union
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(37): error C2065: 'playerHandState': undeclared identifier
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(37): error C2228: left of '.cardInHandStates' must have class/struct/union
+         c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(37): note: type is 'unknown-type'
+     1>c:\7semester\собеседование в цмс\презентация\arcomage\arcomage\project\project1\aiplayer.cpp(37): error C2228: left of '.DropCard' must have class/struct/union
+         Generating Code...
+         Compiling...
+         main.cpp
+         Generating Code...
+     1>Done Building Project "C:\7semester\Собеседование в ЦМС\Презентация\arcomage\Arcomage\Project\Project1\Project1.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.94
+Time Elapsed 00:00:02.60

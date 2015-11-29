@@ -9,37 +9,36 @@ class PlayerWindow {
 public:
 	bool repainted;
 
-	PlayerWindow(PlayerState* _playerState, Settings* _settings);
+	PlayerWindow( PlayerState &_playerState, const Settings &_settings );
 	~PlayerWindow();
 
 	// Зарегистрировать класс окна
 	static bool RegisterClass(HINSTANCE hInstance);
 
 	// Создать экземпляр окна
-	bool Create(HINSTANCE hInstance, HWND parentHandle, int nCmdShow);
+	bool Create( HINSTANCE hInstance, HWND parentHandle, int nCmdShow );
 
 	// Показать окно
 	void Show();
 
-	HWND GetHandle();
+	HWND GetHandle() const;
 
 protected:
-	void OnDestroy();
 	void OnPaint();
 
 private:
-	static wchar_t* nameClassWindow; 
-	static wchar_t* nameWindow; 
+	const static wchar_t* nameClassWindow; 
+	const static wchar_t* nameWindow; 
 
 	int cmdShow;
 
 	HWND handle;
 
-	PlayerState* playerState;
-	Settings* settings;
+	PlayerState& playerState;
+	const Settings& settings;
 
-	void drawBuildings(HDC dc);
-	void drawStats(HDC dc);
+	void drawBuildings(HDC dc) const;
+	void drawStats(HDC dc) const;
 
 	static LRESULT __stdcall windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam );
 };

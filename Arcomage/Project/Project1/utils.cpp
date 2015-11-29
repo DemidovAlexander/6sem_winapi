@@ -11,7 +11,7 @@ int GetPixelSize(int fontSize) {
 	return ::MulDiv(fontSize, pexelsy, 36);
 }
 
-void PrintCard(HWND staticHandle, Card &card, bool wasDropped) {
+void PrintCard(HWND staticHandle, const Card &card, bool wasDropped) {
 	std::string text = "";
 
 	if (wasDropped) {
@@ -103,7 +103,7 @@ void PrintCard(HWND staticHandle, Card &card, bool wasDropped) {
 	::SetWindowText( staticHandle, (LPCWSTR)std::wstring(text.begin(), text.end()).c_str() );
 }
 
-COLORREF GetCardColor(Card &card) {
+COLORREF GetCardColor(const Card &card) {
 	if (card.requiredMetalAmount > 0) {
 		if (card.requiredStoneAmount > 0) {
 			return RGB(255, 211, 155);

@@ -7,7 +7,7 @@
 
 class PlayerHandState {
 public:
-	PlayerHandState(CardsDeckState* _cardsDeckState, PlayerState* _playerState, PlayerState* _enemyPlayerState);
+	PlayerHandState(CardsDeckState &_cardsDeckState, PlayerState &_playerState, PlayerState &_enemyPlayerState);
 	~PlayerHandState();
 
 	std::vector<CardInHandState> cardInHandStates;

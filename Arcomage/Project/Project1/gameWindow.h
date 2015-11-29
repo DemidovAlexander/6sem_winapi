@@ -12,8 +12,6 @@
 class GameWindow {
 public:
 	Settings settings;
-	int remainingTime;
-	UINT timerID;
 
     GameWindow();
     ~GameWindow();
@@ -22,13 +20,18 @@ public:
     static bool RegisterClass(HINSTANCE hInstance);
 
     // Создать экземпляр окна
-    bool Create(HINSTANCE hInstance, int nCmdShow);
+    bool Create( HINSTANCE hInstance, int nCmdShow );
 
     // Показать окно
     void Show();
 
-	HWND GetHandle();
-	HWND GetDialogHandle();
+	HWND GetHandle() const;
+	HWND GetDialogHandle() const;
+
+	void SetRemainingTime(int _remainingTime);
+
+	void SetTimerID(UINT _timerID);
+	UINT GetTimerID() const;
 
 	void UpdatePlayersWindows();
 
@@ -47,16 +50,18 @@ protected:
 	void CreateDialogWindow(int cmdShow);
 
 	void AutoMove();
-	bool CheckEndGame();
+	bool CheckGameEnd();
 
 private:
-	static wchar_t* nameClassWindow; 
-	static wchar_t* nameWindow; 
+	const static wchar_t* nameClassWindow; 
+	const static wchar_t* nameWindow; 
 
 	int cmdShow;
 
     HWND handle;
 	HWND dialogHandle;
+
+	UINT timerID;
 
 	PlayerState playerState;
 	PlayerState autoPlayerState;
@@ -74,6 +79,8 @@ private:
 
 	bool gameIsEnded;
 	bool isEnemyTurn;
+
+	int remainingTime;
 
     static LRESULT __stdcall windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam );
 };

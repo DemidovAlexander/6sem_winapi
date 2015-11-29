@@ -9,16 +9,21 @@
 
 class CardInHandState {
 public:
-	Card card;
-	PlayerState* playerState;
-
-	CardInHandState(CardsDeckState* _cardsDeckState, PlayerState* _playerState, PlayerState* _enemyPlayerState);
+	CardInHandState(CardsDeckState &_cardsDeckState, PlayerState &_playerState, PlayerState &_enemyPlayerState);
 	~CardInHandState();
 
 	void ApplyCard();
 	void DropCard();
 
+	const Card& GetCard() const;
+
+	const PlayerState& GetPlayerState() const;
+
 private:
-	CardsDeckState* cardsDeckState;
-	PlayerState* enemyPlayerState;
+	Card card;
+
+	PlayerState& playerState;
+
+	CardsDeckState& cardsDeckState;
+	PlayerState& enemyPlayerState;
 };

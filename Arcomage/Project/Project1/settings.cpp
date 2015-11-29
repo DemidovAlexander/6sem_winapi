@@ -1,22 +1,22 @@
 #include "settings.h"
 
-int Settings::GetFreezeTime() {
+int Settings::GetFreezeTime() const {
 	return freezeTime;
 }
 
-int Settings::GetRoundTime() {
+int Settings::GetRoundTime() const {
 	return roundTime;
 }
 
-int Settings::GetTowerVictoryHeight() {
+int Settings::GetTowerVictoryHeight() const {
 	return towerVictoryHeight;
 }
 
-int Settings::GetMetalVictoryAmount() {
+int Settings::GetMetalVictoryAmount() const {
 	return metalVictoryAmount;
 }
 
-int Settings::GetStoneVictoryAmount() {
+int Settings::GetStoneVictoryAmount() const {
 	return stoneVictoryAmount;
 }
 

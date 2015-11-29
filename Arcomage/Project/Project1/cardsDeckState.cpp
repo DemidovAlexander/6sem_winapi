@@ -8,9 +8,7 @@
 #include "cardsDeckState.h"
 #include "card.h"
 
-Card Parse(std::vector< std::string > &patterns) {
-	Card card;
-
+void Parse(const std::vector< std::string > &patterns, Card &card) {
 	card.requiredMetalAmount = stoi(patterns[0]);
 	card.requiredStoneAmount = stoi(patterns[1]);
 
@@ -30,8 +28,6 @@ Card Parse(std::vector< std::string > &patterns) {
 	card.changeYourWall = stoi(patterns[14]);
 
 	card.name = patterns[15];
-
-	return card;
 }
 
 CardsDeckState::CardsDeckState(int cardsNumber) {
@@ -45,13 +41,16 @@ CardsDeckState::CardsDeckState(int cardsNumber) {
 			stream >> pattern;
 			patterns.push_back(pattern);
 		}
-		cards.push_back(Parse(patterns));
+
+		Card card;
+		Parse(patterns, card);
+		cards.push_back(card);
 	}
 
 	stream.close();
 
 	std::srand((unsigned int)std::time(0));
-	std::random_shuffle ( cards.begin(), cards.end() );
+	std::random_shuffle( cards.begin(), cards.end() );
 }
 
 CardsDeckState::~CardsDeckState() 
@@ -60,7 +59,7 @@ CardsDeckState::~CardsDeckState()
 
 void CardsDeckState::ReturnCard(Card card) {
 	cards.push_back(card);
-	std::random_shuffle ( cards.begin(), cards.end() );
+	std::random_shuffle( cards.begin(), cards.end() );
 }
 
 Card CardsDeckState::GetCard() {

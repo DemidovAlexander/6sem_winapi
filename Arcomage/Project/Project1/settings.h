@@ -2,12 +2,12 @@
 
 class Settings {
 public:
-	int GetFreezeTime();
-	int GetRoundTime();
+	int GetFreezeTime() const;
+	int GetRoundTime() const;
 
-	int GetTowerVictoryHeight();
-	int GetMetalVictoryAmount();
-	int GetStoneVictoryAmount();
+	int GetTowerVictoryHeight() const;
+	int GetMetalVictoryAmount() const;
+	int GetStoneVictoryAmount() const;
 
 	void SetFreezeTime(int _freezeTime);
 	void SetRoundTime(int _roundTime);

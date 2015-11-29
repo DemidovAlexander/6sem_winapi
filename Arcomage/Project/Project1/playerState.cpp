@@ -19,35 +19,35 @@ PlayerState::~PlayerState()
 {
 }
 
-int PlayerState::GetTowerHeight() {
+int PlayerState::GetTowerHeight() const {
 	return towerHeight;
 }
 
-int PlayerState::GetWallHeight() {
+int PlayerState::GetWallHeight() const {
 	return wallHeight;
 }
 
-int PlayerState::GetMinesNumber() {
+int PlayerState::GetMinesNumber() const {
 	return minesNumber;
 }
 
-int PlayerState::GetQuarriesNumber() {
+int PlayerState::GetQuarriesNumber() const {
 	return quarriesNumber;
 }
 
-int PlayerState::GetStoneAmount() {
+int PlayerState::GetStoneAmount() const {
 	return stoneAmount;
 }
 
-int PlayerState::GetMetalAmount() {
+int PlayerState::GetMetalAmount() const {
 	return metalAmount;
 }
 
-bool PlayerState::GetCanMove() {
+bool PlayerState::GetCanMove() const {
 	return canMove;
 }
 
-bool PlayerState::GetLastCardWasDropped() {
+bool PlayerState::GetLastCardWasDropped() const {
 	return lastCardWasDropped;
 }
 
@@ -87,7 +87,7 @@ void PlayerState::SetLastCardWasDropped(bool flag) {
 	lastCardWasDropped = flag;
 }
 
-bool PlayerState::IsAuto() {
+bool PlayerState::IsAuto() const {
 	return isAuto;
 }
 
@@ -100,7 +100,7 @@ Card PlayerState::GetLastUsedCard() {
 	return lastUsedCard;
 }
 
-bool PlayerState::IsCardAvailable(Card card) {
+bool PlayerState::IsCardAvailable(const Card &card) const {
 	return ((card.requiredMetalAmount <= GetMetalAmount()) 
 		&& (card.requiredStoneAmount <= GetStoneAmount()));
 }

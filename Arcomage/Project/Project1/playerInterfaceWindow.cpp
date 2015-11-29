@@ -3,11 +3,11 @@
 #include "cardInHandWindow.h"
 #include "playerHandState.h"
 
-PlayerInterfaceWindow::PlayerInterfaceWindow(PlayerHandState* playerHandState) :
+PlayerInterfaceWindow::PlayerInterfaceWindow(PlayerHandState &playerHandState) :
 	handle(0)
 {
 	for (int i = 0; i < 5; ++i) {
-		cardInHandWindows.push_back(CardInHandWindow(&((*playerHandState).cardInHandStates[i])));
+		cardInHandWindows.push_back(CardInHandWindow(playerHandState.cardInHandStates[i]));
 	}
 }
 
@@ -15,8 +15,8 @@ PlayerInterfaceWindow::~PlayerInterfaceWindow()
 {
 }
 
-wchar_t* PlayerInterfaceWindow::nameClassWindow = L"classPlayerInterfaceWindow";
-wchar_t* PlayerInterfaceWindow::nameWindow = L"playerInterfaceWindow";
+const wchar_t* PlayerInterfaceWindow::nameClassWindow = L"classPlayerInterfaceWindow";
+const wchar_t* PlayerInterfaceWindow::nameWindow = L"playerInterfaceWindow";
 
 bool PlayerInterfaceWindow::RegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEX tag;
@@ -44,7 +44,7 @@ bool PlayerInterfaceWindow::RegisterClass(HINSTANCE hInstance) {
 bool PlayerInterfaceWindow::Create(HINSTANCE hInstance, HWND parentHandle, int nCmdShow) {
 	cmdShow = nCmdShow;
 
-	handle = CreateWindow( nameClassWindow, nameWindow, WS_CHILD | WS_BORDER | WS_CLIPCHILDREN,
+	handle = ::CreateWindow( nameClassWindow, nameWindow, WS_CHILD | WS_BORDER | WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, parentHandle, NULL, hInstance, this );	
 
 	if (handle == NULL) {
@@ -53,18 +53,18 @@ bool PlayerInterfaceWindow::Create(HINSTANCE hInstance, HWND parentHandle, int n
 	}
 
 	for (int i = 0; i < 5; ++i) {
-		cardInHandWindows[i].Create( hInstance, handle, cmdShow, i);
+		cardInHandWindows[i].Create( hInstance, handle, cmdShow, i );
 	}
 
 	return true;	
 }
 
-HWND PlayerInterfaceWindow::GetHandle() {
+HWND PlayerInterfaceWindow::GetHandle() const {
 	return handle;
 }
 
-void PlayerInterfaceWindow::dropCardInHand(int number) {
-	cardInHandWindows[number].dropCardInHand();
+void PlayerInterfaceWindow::DropCardInHand(int number) {
+	cardInHandWindows[number].DropCardInHand();
 }
 
 void PlayerInterfaceWindow::Show() {
@@ -86,10 +86,6 @@ void PlayerInterfaceWindow::Show() {
 	::ShowWindow( handle, cmdShow );
 }
 
-void PlayerInterfaceWindow::OnDestroy() {
-	::PostQuitMessage( 0 );	
-}
-
 LRESULT __stdcall PlayerInterfaceWindow::windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam ) {
 	if (message == WM_NCCREATE) { 
 		PlayerInterfaceWindow* that = reinterpret_cast< PlayerInterfaceWindow* >( reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams ); 
@@ -102,7 +98,6 @@ LRESULT __stdcall PlayerInterfaceWindow::windowProc( HWND handle, UINT message, 
 
 	switch( message ) {
 		case WM_DESTROY:
-			that->OnDestroy();
 			return 0;	
 	}
 

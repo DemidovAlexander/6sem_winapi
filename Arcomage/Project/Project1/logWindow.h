@@ -15,13 +15,13 @@ public:
 	static bool RegisterClass(HINSTANCE hInstance);
 
 	// Создать экземпляр окна
-	bool Create(HINSTANCE hInstance, HWND parentHandle, int cmdShow);
+	bool Create( HINSTANCE hInstance, HWND parentHandle, int cmdShow );
 
 	// Показать окно
 	void Show();
 
-	HWND GetHandle();
-	HWND GetLogHandle();
+	HWND GetHandle() const;
+	HWND GetLogHandle() const;
 
 	void PrintTimeIsOutMessage();
 
@@ -33,23 +33,22 @@ public:
 
 	void PrintLossText();
 
-	void PrintCardLog(Card &card, bool wasDropped);
+	void PrintCardLog(const Card &card, bool wasDropped);
 
 protected:
-	void OnDestroy();
 	LRESULT OnCtlcolorstatic(WPARAM wParam);
 
 private:
-	static wchar_t* nameClassWindow; 
-	static wchar_t* nameWindow; 
-	static wchar_t* initialText;
-	static wchar_t* timeIsOutText;
-	static wchar_t* enemyMoveText;
+	const static wchar_t* nameClassWindow; 
+	const static wchar_t* nameWindow;
+	const static wchar_t* initialText;
+	const static wchar_t* timeIsOutText;
+	const static wchar_t* enemyMoveText;
 
-	static wchar_t* victoryText;
-	static wchar_t* lossText;
+	const static wchar_t* victoryText;
+	const static wchar_t* lossText;
 
-	static std::string chooseCardText;
+	const static std::string chooseCardText;
 
 	UINT printLogMessage;
 
@@ -59,7 +58,7 @@ private:
 	int cmdShow;
 
 	COLORREF currentBackgroundColor;
-	COLORREF standardBackgroundColor;
+	const COLORREF standardBackgroundColor;
 
 	static LRESULT __stdcall windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam );
 };
